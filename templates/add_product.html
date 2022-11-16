@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+<div class="row">
+    <div class="col-lg-6">TOP</div>
+    <div class="col-lg-6">YOKO</div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <img src="{{ url_for('camera_top', camera_id=cameras['TOP']) }}" width="100%" class="rounded"><br/>
+    </div>
+     <div class="col-lg-6">
+        <img src="{{ url_for('camera_side', camera_id=cameras['SIDE']) }}" width="100%" class="rounded"><br/>
+    </div>
+</div>
+<div class="row">
+
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+<html>
+<head>
+    <title>AI DETECT</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/css/bootstrap.min.css') }}">
+    <script src="{{url_for('static', filename='styles/js/bootstrap.bundle.min.js')}}"></script>
+</head>
+
+<!--Body-->
+<body>
+<section class="vh-100" style="background-color: white;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card shadow-2-strong" style="border-radius: 1rem;">
+          <div class="card-body p-5 text-center">
+
+            <h3 class="mb-5">Sign in</h3>
+
+            <form method="post" action="/login">
+                    <!-- Email input -->
+                    <div class="form-outline mb-4">
+                        <input type="text" placeholder="ユーザー" name="username" value="{{request.form.username }}" class="form-control form-control-lg"/>
+                    </div>
+                    <!-- Password input -->
+                    <div class="form-outline mb-4">
+                        <input type="password" placeholder="パスワード" name="user_password" value="{{request.form.password }}" class="form-control form-control-lg"/>
+                    </div>
+                    <button type="submit" class="btn btn-lg" style="background-color: teal; color: white;">ログイン</button>
+
+                </form>
+                {% if error %}
+                <p class="error"><strong>Error:</strong> {{ error }}
+                    {% endif %}
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--Footer-->
+</body>
+</html>
