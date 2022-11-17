@@ -1,8 +1,16 @@
+import base64
 import threading
 
 import cv2
 
 import os
+
+import imutils
+import io
+
+from PIL import Image
+from flask_socketio import emit, join_room, leave_room, SocketIO
+from upc import general
 
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 from flask import Flask, render_template, redirect, url_for, request, Response
@@ -18,6 +26,7 @@ app = Flask(__name__)
 app.config.from_object(Config)
 
 detect_hub = None
+socketio = SocketIO(app, cors_allowed_origins='*')
 
 
 class DetectHub(threading.Thread):
@@ -61,6 +70,11 @@ class DetectHub(threading.Thread):
 
 
 def init_model():
+    """
+    Init model Top, Side
+
+    :return: None
+    """
     # Init Model
     global detect_hub
     weights = {"top": os.path.join(os.getcwd(), "upc", "models", "top.pt"),
@@ -123,6 +137,7 @@ def camera_side(camera_id):
 @app.route('/add_product')
 def add_product():
     return render_template('add_product.html', cameras=get_cameras())
+    # return render_template('add_product.html')
 
 
 def get_frame(camera_id):
@@ -160,6 +175,20 @@ def get_frame(camera_id):
 
 
 def draw_put_text(draw_img, x1, y1, x2, y2, conf, cls, point=False, not_show_conf=False):
+    """
+    Draw text on image
+
+    :param draw_img:
+    :param x1:
+    :param y1:
+    :param x2:
+    :param y2:
+    :param conf:
+    :param cls:
+    :param point:
+    :param not_show_conf:
+    :return: Image drawn
+    """
     if int(conf * 100) >= 80:
         color = (0, 0, 255)  # BLUE
     elif int(conf * 100) >= 50:
@@ -263,6 +292,32 @@ def draw_put_text(draw_img, x1, y1, x2, y2, conf, cls, point=False, not_show_con
         # draw_img = cv2.polylines(draw_img, pts=[pts1], isClosed=False, color=color, thickness=thickness)
 
     return draw_img
+
+
+@socketio.on('image')
+def image(data_image):
+    sbuf = io.StringIO()
+    sbuf.write(data_image)
+
+    # decode and convert into image
+    b = io.BytesIO(base64.b64decode(data_image))
+    pimg = Image.open(b)
+
+    # converting RGB to BGR, as opencv standards
+    frame = cv2.cvtColor(general.toImgOpenCV(pimg), cv2.COLOR_RGB2BGR)
+
+    # Process the image frame
+    frame = imutils.resize(frame, width=700)
+    frame = cv2.flip(frame, 1)
+    imgencode = cv2.imencode('.jpg', frame)[1]
+
+    # base64 encode
+    stringData = base64.b64encode(imgencode).decode('utf-8')
+    b64_src = 'data:image/jpg;base64,'
+    stringData = b64_src + stringData
+
+    # emit the frame back
+    emit('response_back', stringData)
 
 
 @app.route("/")

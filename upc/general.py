@@ -69,7 +69,14 @@ def get_all_file(path_dir):
 
 
 def remove_background(image, save_path=None):
-    """Input : Path of image => Output : removed background image by OpenCV"""
+    """
+    Remove background of image.
+
+    :param image: path of image
+    :param save_path: save path
+    :return: -Write removed image in save_path if save path is not None.
+     -Return removed image(OpenCV)
+    """
     in_ = cv2.imread(image)
     out_ = remove(in_)
     if save_path is not None:
