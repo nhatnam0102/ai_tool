@@ -1,23 +1,21 @@
-<html>
+<!DOCTYPE html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
+
+    <!--Title-->
     <title>{% block title %}{% endblock %}</title>
-    <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+
+    <!--CSS-->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}">
-    <script src="{{url_for('static', filename='styles/my_js.js')}}"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/css/bootstrap.min.css') }}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='resource/u-icon.ico') }}">
-    <script src="{{url_for('static', filename='styles/js/bootstrap.bundle.min.js')}}"></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.0/socket.io.js'></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
 </head>
 <body>
 
+<!--Navbar-->
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
     <div class="container-fluid">
-
         <ul class="navbar-nav me-auto">
             <li class="nav-item">
                 <a class="nav-link" href="javascript:void(0)">Data Healthy Check</a>
@@ -25,13 +23,20 @@
             <li class="nav-item">
                 <a class="nav-link" href="javascript:void(0)">Data Augmentation</a>
             </li>
-
         </ul>
-
     </div>
 </nav>
 
-{% block content %}{% endblock %}
-</body>
+{% block content %}
 
-</html>
+<!--Something. . .-->
+{% endblock %}
+
+<!--JavaScript-->
+<script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="{{url_for('static', filename='styles/my_js.js')}}"></script>
+<script src="{{url_for('static', filename='styles/js/bootstrap.bundle.min.js')}}"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.0/socket.io.js'></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</body>

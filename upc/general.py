@@ -462,7 +462,6 @@ def affine_5_degrees(fg, bg, save, pers_size=0, fit_box=(0, 0), fit_image=(0, 0)
 
 
 def draw_put_text(draw_img, x1, y1, x2, y2, conf, cls, point=False, not_show_conf=False, color_=None):
-
     if color_ is not None:
         color = color_
     else:
@@ -910,7 +909,7 @@ class MergeThread(threading.Thread):
                 fore_image = Image.open(fg).convert("RGBA")  # Read foreground image with 4 channels
                 id_ = class_id(basename(fg))  # Get id of product
                 if self.rotate is not None:
-                    fore_image = fore_image.rotate(random.randint(0, int(self.rotate)), expand=True)
+                    fore_image = fore_image.rotate(random.randrange(0, int(self.rotate), 10), expand=True)
                     fore_image = fore_image.crop(w_h_image_rotate(fore_image))
                 if self.cutout:
                     fore_image = cutout(fore_image, is_pil=True)
@@ -944,7 +943,16 @@ class MergeThread(threading.Thread):
                 cur_w += fw - overlap_value
                 self.fgs.remove(fg)
 
-            merged_image.save(name + ".png", format="png")
+            # merged_image.save(name + ".png", format="png")
+            merged_image_opencv = toImgOpenCV(merged_image)
+            transform = A.Compose([
+                A.RandomBrightnessContrast(),
+                A.Blur()])
+            image = cv2.cvtColor(merged_image_opencv, cv2.COLOR_BGR2RGB)
+            transformed = transform(image=image)
+            transformed_image = transformed["image"]
+            transformed_image = cv2.cvtColor(transformed_image, cv2.COLOR_RGB2BGR)
+            cv2.imwrite(name + ".png", transformed_image)
             idx += 1
 
 
@@ -954,6 +962,7 @@ def merge_thread(p_foregrounds, p_backgrounds, p_save, rotate_=None, cutout_=Fal
     dic_by_size = {}
     threads = []
     for f in lst_foregrounds:
+        print(f)
         image_names = basename(f).split("-")
         sizes = str(str(image_names[2]).split('_')[1])
         if sizes not in dic_by_size.keys():
@@ -1009,12 +1018,13 @@ def change_id(dict_change, p_change):
                         continue
 
 
-def resize(original_files, save, start=0.7, stop=1.2, step=0.1):
+def resize(original_files, save, start=0.7, stop=1.2, step=0.1, range_stop=5):
     for image in original_files:
         im = cv2.imread(image, cv2.IMREAD_UNCHANGED)
         for i in np.arange(start, stop, step):
             img_rs = cv2.resize(im, (0, 0), fx=i, fy=i)
-            for j in range(1, 11, 1):
+
+            for j in range(1, range_stop, 1):
                 cv2.imwrite(join(save, basename(image)[:-4] + f"-resize_{round(i, 1)}_{j}.png"), img_rs)
 
 

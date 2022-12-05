@@ -1,0 +1,8 @@
+<svg width="100%" height="100%" viewBox="0 0 500 500" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+<g id="Play_01">
+<path d="M475,70C475,45.164 454.836,25 430,25L70,25C45.164,25 25,45.164 25,70L25,430C25,454.836 45.164,475 70,475L430,475C454.836,475 475,454.836 475,430L475,70ZM334.499,241.407C337.528,243.21 339.384,246.475 339.384,250C339.384,253.525 337.528,256.79 334.499,258.593C303.248,277.195 229.585,321.042 197.73,340.003C194.639,341.843 190.799,341.881 187.672,340.103C184.547,338.326 182.615,335.006 182.615,331.411L182.615,168.589C182.615,164.994 184.547,161.674 187.672,159.897C190.799,158.119 194.639,158.157 197.73,159.997C229.585,178.958 303.248,222.805 334.499,241.407Z" style="fill:url(#_Linear1);" id="id_101"></path>
+</g>
+<defs>
+<linearGradient id="_Linear1" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(500,-500,500,500,0,500)"><stop offset="0" style="stop-color: rgb(56, 36, 212); stop-opacity: 1;" id="id_102"></stop><stop offset="1" style="stop-color: rgb(222, 44, 201); stop-opacity: 1;" id="id_103"></stop></linearGradient>
+</defs>
+</svg>

@@ -6,130 +6,80 @@ Add Product
 
 
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-6">
-            <div class="container mt-3">
-                <h2>Add product</h2>
 
+    <div class="row">
+        <!--Screen Title-->
+        <div>
+            <h2>新製品登録 <img src="{{url_for('static', filename='resource/icon/add.svg')}}"
+                           style="width:20px;height:20px;margin-bottom:5px;" alt="add"/></h2>
+            <hr class="divider">
+        </div>
+        <div class="col-lg-4">
+            <!--Menu Collapse-->
+            <div class="container mt-3">
                 <div id="accordion">
+
+                    <!--Model Choose-->
                     <div class=" card-container">
                         <div class="card-header">
-                            <a class="btn" data-bs-toggle="collapse" href="#collapseOne">
-                                <h1 class="label"> Select File</h1>
+                            <a class="btn btn-custom" data-bs-toggle="collapse" href="#collapseOne">
+                                <h1 class="label"> ① モデル選択</h1>
                             </a>
                         </div>
-                        <div id="collapseOne" class="collapse show" data-bs-parent="#accordion">
+                        <div id="collapseOne" class="collapse" data-bs-parent="#accordion">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-lg-5">
-                                        <div class="file-upload">
-                                            <div class="image-upload-wrap">
-                                                <input class="file-upload-input" type='file'
-                                                       onchange="readURL(this);"
-                                                       accept="image/*"/>
-                                                <div class="drag-text">
-                                                    <h3>Drag and drop or Select Image </h3>
-                                                </div>
-                                            </div>
-                                            <div class="file-upload-content">
-                                                <img class="file-upload-image" src="#" alt="your image"/>
-                                                <div class="image-title-wrap">
-                                                    <button type="button" onclick="removeUpload()"
-                                                            class="remove-image">
-                                                        Remove <span
-                                                            class="image-title">Uploaded Image</span></button>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div class=" d-flex justify-content-center col-lg-6">
+                                            {% include 'top_register_product_modal.html' %}
+
                                     </div>
-                                    <div class="col-lg-2 align-self-center">
-                                        <h1 class="label"> Or</h1>
-                                    </div>
-                                    <div class="col-lg-5  align-self-center">
-                                        <!-- Button to Open the Modal -->
-                                        <button type="button" class="btn_" onclick="loadCamera()" data-bs-toggle="modal"
-                                                data-bs-target="#loadCameraModal">
-                                            Take photo
-                                        </button>
-
-                                        <!-- The Modal -->
-                                        <div class="modal" id="loadCameraModal">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-
-                                                    <!-- Modal Header -->
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title">Take Photo</h4>
-                                                        <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal"></button>
-                                                    </div>
-
-                                                    <!-- Modal body -->
-                                                    <div class="modal-body">
-                                                        <div class="row">
-                                                            <div class="col-lg-6">
-                                                                <video autoplay playsinline id="videoElement"></video>
-                                                            </div>
-                                                            <div class="col-lg-6">
-                                                                <canvas id="canvas" width="400" height="300"></canvas>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <!-- Modal footer -->
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-danger"
-                                                                data-bs-dismiss="modal">Close
-                                                        </button>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-
+                                    <div class="d-flex justify-content-center col-lg-6">
+                                       {% include 'side_register_product_modal.html' %}
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
                     </div>
-                    <div class="card">
+
+                    <!--Data Augmentation-->
+                    <div class="card-container">
                         <div class="card-header">
-                            <a class="collapsed btn" data-bs-toggle="collapse" href="#collapseTwo">
-                                Collapsible Group Item #2
-                            </a>
-                        </div>
-                        <div id="collapseTwo" class="collapse" data-bs-parent="#accordion">
-                            <div class="card-body">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <a class="collapsed btn" data-bs-toggle="collapse" href="#collapseThree">
-                                Collapsible Group Item #3
+                            <a class="btn btn-custom" data-bs-toggle="collapse" href="#collapseThree">
+                                <h1 class="label">② データ拡張</h1>
                             </a>
                         </div>
                         <div id="collapseThree" class="collapse" data-bs-parent="#accordion">
                             <div class="card-body">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                Film, size, rotate,...
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="col-lg-8">
+            <!--                                    <script>-->
+            <!--                             navigator.mediaDevices.enumerateDevices().then(function (devices) {-->
+            <!--                                    for(var i = 0; i < devices.length; i ++){-->
+            <!--                                        var device = devices[i];-->
+            <!--                                        if (device.kind === 'videoinput') {-->
+            <!--                                            var option = document.createElement('option');-->
+            <!--                                            option.value = device.deviceId;-->
+            <!--                                            option.text = device.deviceId || 'camera ' + (i + 1);-->
+            <!--                                            document.querySelector('select#videoSource').appendChild(option);-->
+            <!--                                        }-->
+            <!--                                    };-->
+            <!--                                });-->
+
+            <!--                                    </script>-->
+            <!--                                    <select id="videoSource"></select>-->
 
         </div>
 
     </div>
 
 </div>
+
 {% endblock %}
 <!--   <div class="col-lg-6">&ndash;&gt;-->
 <!--                    <img src="{{ url_for('camera_top', camera_id=cameras['TOP']) }}" width="100%" class="rounded"><br/>-->

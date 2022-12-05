@@ -92,16 +92,12 @@ def get_cameras():
 def index():
     if request.method == 'POST':
         if request.form['btn_control'] == "btn_info":
-            print("btn_evolve click")
             return redirect(url_for('information'))
         if request.form['btn_control'] == "btn_add":
-            print("btn_add click")
             return redirect(url_for('add_product'))
         if request.form['btn_control'] == "btn_change":
-            print("btn_change click")
             return redirect(url_for('change'))
         if request.form['btn_control'] == "btn_augmentations":
-            print("btn_augmentations click")
             return redirect(url_for('augmentations'))
 
     return render_template('index.html')

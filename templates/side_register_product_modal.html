@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+
+<!--Open newProductModal Button-->
+<div class="card-model d-flex justify-content-center align-items-center"
+     role="button"
+     data-bs-toggle="modal"
+     data-bs-target="#side-register-product-modal">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="label">横モデル</div>
+        </div>
+    </div>
+</div>
+
+<!-- newProductModal -->
+<div class="modal fade" id="side-register-product-modal" tabindex="-1"
+     aria-labelledby="side-large-modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="side-large-modal-label">
+                    新製品登録</h5>
+
+                <!--Close Button side Modal-->
+                <button type="button" class="btn-close"
+                        data-bs-dismiss="modal"
+                        onclick="closeAndClear('side')"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-4">
+
+                        <!--New or Old Product choose-->
+                        <div class="wrapper-choose-product">
+                            <input type="radio"
+                                   name="select"
+                                   id="side-option-1"
+                                   checked onclick="checkRadio(id,'side')">
+                            <input type="radio"
+                                   name="select"
+                                   id="side-option-2"
+                                   onclick="checkRadio(id,'side')">
+                            <label for="side-option-1" class="option option-1">
+                                <div class="dot"></div>
+                                <span>新製品</span>
+                            </label>
+                            <label for="side-option-2" class="option option-2">
+                                <div class="dot"></div>
+                                <span>現製品</span>
+                            </label>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-8">
+                        <div id="side-new-product-input">
+                            <div class="row" style="margin-bottom:5px;">
+                                <div class="col-sm-2">
+                                    <div class="label" style="width:100%;">
+                                        クラスID
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <input type="text" class="input-text-1"
+                                           style="width:100%;"
+                                           readonly value="999">
+                                </div>
+                                <div class="col-sm-6">
+                                    クラスIDが自動登録されます。
+                                </div>
+                            </div>
+
+                        </div>
+                        <div id="side-old-product-input">
+                            <div class="row" style="margin-bottom:5px;">
+                                <div class="col-sm-2">
+                                    <div class="label" style="width:100px;">
+                                        クラスID
+                                    </div>
+                                </div>
+                                <div class="col-sm-10">
+                                    <!--Autocomplete-->
+                                    <div class="wrapper">
+                                        <div class="search-input">
+                                            <input type="search"
+                                                   class="input-text-1"
+                                                   placeholder="製品を検索するために入力する"
+                                                   style="width:100%;">
+                                            <div class="autocom-box">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="divider">
+                <div class="row d-flex justify-content-center align-items-center"
+                     style="height: 400px;">
+                    <div class="col-lg-4">
+                        <div class="row">
+                            <div class="file-upload">
+                                <div class="side-image-upload-wrap">
+                                    <input class="side-file-upload-input"
+                                           type='file'
+                                           onchange="readURL(this,'side');"
+                                           accept="image/*"/>
+                                    <div class="drag-text">
+                                        <h3>画像を選択</h3>
+                                        <h3>ドラッグ＆ドロップする </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <h1 class="label"> 又は</h1>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center">
+                            <button type="button" class="btn_"
+                                    id="side">
+                                <img src="{{url_for('static', filename='resource/icon/camera.png')}}"
+                                     style="width:80px;height:80px;"
+                                     alt="camera"/>
+                                写真撮る
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
+                        <div id="side-import-file">
+                            <div id="side-show-file" class="fix-image">
+                                <div class="side-file-upload-content">
+                                    <img class="side-file-upload-image"
+                                         src="#" alt="your image"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="side-show-camera"
+                             class="fix-image justify-content-center">
+                            <video id="side-cam" class="cam">
+                            </video>
+                            <canvas id="side-canvas"
+                                    class="canvas"></canvas>
+                            <img id="side-photo" class="photo">
+                            <div class="camera-control">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <img src="{{url_for('static', filename='resource/icon/play.svg')}}"
+                                             class="camera-button-control"
+                                             alt="add"
+                                             onclick="rePlay('side')"
+                                        />
+                                    </div>
+                                    <div class="col-6">
+                                        <img src="{{url_for('static', filename='resource/icon/take_photo.svg')}}"
+                                             class="camera-button-control"
+                                             id="take-side-photo"
+                                        />
+                                        <div id="snackbar">画像を撮りました。</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                        onclick="closeAndClear('side')">閉じる
+                </button>
+                <button type="button" class="btn btn-primary"
+                        style="background-color: Navy;">登録
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
