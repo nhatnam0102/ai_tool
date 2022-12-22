@@ -66,7 +66,7 @@ function readTextFile() {
         async: false, // asynchronous request? (synchronous requests are discouraged...)
         cache: false, // with this, you can force the browser to not make cache of the retrieved data
         dataType: "text", // jQuery will infer this, but you can set explicitly
-        success: function(data) {
+        success: function (data) {
             top_data = data.split(/\r?\n/).length;
         }
     });
@@ -77,7 +77,7 @@ function readTextFile() {
         async: false, // asynchronous request? (synchronous requests are discouraged...)
         cache: false, // with this, you can force the browser to not make cache of the retrieved data
         dataType: "text", // jQuery will infer this, but you can set explicitly
-        success: function(data) {
+        success: function (data) {
             side_data = data.split(/\r?\n/).length;
         }
     });
@@ -92,7 +92,7 @@ function clear() {
 }
 
 //specify camera
-$('#btn_top_modal').on('click', function(event) {
+$('#btn_top_modal').on('click', function (event) {
     submit_dict.camera = 'top';
 
     //Set new class id
@@ -100,7 +100,7 @@ $('#btn_top_modal').on('click', function(event) {
     submit_dict.class_id = top_data;
     submit_dict.design_id = 0;
 });
-$('#btn_side_modal').on('click', function(event) {
+$('#btn_side_modal').on('click', function (event) {
     submit_dict.camera = 'side';
 
     //Set new class id
@@ -148,7 +148,7 @@ function readURL(input) {
 
     if (input.files && input.files[0]) {
         let reader = new FileReader();
-        reader.onload = function(e) {
+        reader.onload = function (e) {
             $(".file-upload-image").attr('src', e.target.result);
             $(".file-upload-content").css('display', 'flex');
             $(".image-title").html(input.files[0].name);
@@ -163,7 +163,7 @@ function readURL(input) {
 }
 
 // Hide loading modal
-$(window).on('load', function() {
+$(window).on('load', function () {
     $('#loading').hide();
 })
 
@@ -176,19 +176,19 @@ function remove_upload() {
     submit_dict.image_src = null;
 }
 
-$('.image-upload-wrap').bind('dragover', function() {
+$('.image-upload-wrap').bind('dragover', function () {
     $('.image-upload-wrap').addClass('image-dropping');
 });
-$('.image-upload-wrap').bind('dragleave', function() {
+$('.image-upload-wrap').bind('dragleave', function () {
     $('.image-upload-wrap').removeClass('image-dropping');
 });
 
 
-$(document).ready(function() {
-    $('.register-modal').click(function() {
+$(document).ready(function () {
+    $('.register-modal').click(function () {
         $('#confirm_modal').modal('show');
     });
-    $('.confirm-modal').click(function() {
+    $('.confirm-modal').click(function () {
         $('#confirm_modal').modal('hide');
         $('#register-product-modal').modal('hide');
     });
@@ -237,7 +237,7 @@ async function get_media_stream(constraints) {
         input.step = capabilities.focusDistance.step;
         input.value = track.getSettings().focusDistance;
 
-        input.oninput = function(event) {
+        input.oninput = function (event) {
             track.applyConstraints({
                 advanced: [{
                     focusMode: "manual",
@@ -317,7 +317,7 @@ function process_image() {
         data: {
             base64_data: original_image
         },
-        success: function(response) {
+        success: function (response) {
 
             if (rejection_cb.checked) {
                 rejection_image_src.setAttribute("src", response);
@@ -327,7 +327,7 @@ function process_image() {
                 // Set canvas size
                 var image = new Image();
                 image.src = response;
-                image.onload = function() {
+                image.onload = function () {
                     canvas_h = this.height;
                     canvas_w = this.width;
                 }
@@ -339,7 +339,7 @@ function process_image() {
             //Hide loading
             $('#loading').hide();
         },
-        error: function(xhr) {
+        error: function (xhr) {
             //TODO show alert
             $('#loading').hide();
         }
@@ -370,7 +370,7 @@ function take_photo() {
             data: {
                 base64_data: data
             },
-            success: function(response) {
+            success: function (response) {
 
                 if (rejection_cb.checked) {
                     rejection_image_src.setAttribute("src", response);
@@ -379,7 +379,7 @@ function take_photo() {
 
                     var newImg = new Image();
                     newImg.src = response;
-                    newImg.onload = function() {
+                    newImg.onload = function () {
                         canvas_h = newImg.height;
                         canvas_w = newImg.width;
                     }
@@ -389,7 +389,7 @@ function take_photo() {
                 //Hide loading
                 $('#loading').hide();
             },
-            error: function(xhr) {
+            error: function (xhr) {
                 //TODO show alert
                 $('#loading').hide();
             }
@@ -427,7 +427,7 @@ function close_and_clear() {
 }
 
 //Register product button event
-$('#btn_register').on('click', function() {
+$('#btn_register').on('click', function () {
     $.ajax({
         url: "/add_product",
         type: "POST",
@@ -435,16 +435,16 @@ $('#btn_register').on('click', function() {
         data: JSON.stringify({
             submit_dict
         }),
-        success: function(response) {
+        success: function (response) {
             //TODO do something
         },
-        error: function(xhr) {
+        error: function (xhr) {
             //TODO show alert
         },
     });
 
 })
-option_1_rad.onclick = function() {
+option_1_rad.onclick = function () {
     //Show new product input layout
     new_product_input_layout.style.display = 'block';
     option_1_rad.checked = true;
@@ -457,7 +457,7 @@ option_1_rad.onclick = function() {
     submit_dict.product_type = 'new';
 };
 
-option_2_rad.onclick = function() {
+option_2_rad.onclick = function () {
     //Hide new product input layout
     new_product_input_layout.style.display = 'none';
     option_1_rad.checked = false;
@@ -501,7 +501,7 @@ const class_image = document.getElementById("class_image");
 
 existed_class_id_input.oninput = (e) => {
     var validate_inputs = document.querySelectorAll(".main.active input");
-    validate_inputs.forEach(function(validate_input) {
+    validate_inputs.forEach(function (validate_input) {
         validate_input.classList.remove('warning');
     });
 
@@ -566,7 +566,7 @@ const design_image = document.getElementById("design_image");
 
 existed_design_id_input.oninput = (e) => {
     var validate_inputs = document.querySelectorAll(".main.active input");
-    validate_inputs.forEach(function(validate_input) {
+    validate_inputs.forEach(function (validate_input) {
         validate_input.classList.remove('warning');
     });
 
@@ -699,8 +699,8 @@ var step_list = document.querySelectorAll(".progress-bar li");
 var num = document.querySelector(".step-number");
 let form_num = 0;
 
-next_click.forEach(function(next_click_form) {
-    next_click_form.addEventListener('click', function() {
+next_click.forEach(function (next_click_form) {
+    next_click_form.addEventListener('click', function () {
         if (!validate_form()) {
             return false
         }
@@ -719,8 +719,8 @@ next_click.forEach(function(next_click_form) {
 });
 
 var back_click = document.querySelectorAll(".back_button");
-back_click.forEach(function(back_click_form) {
-    back_click_form.addEventListener('click', function() {
+back_click.forEach(function (back_click_form) {
+    back_click_form.addEventListener('click', function () {
         form_num--;
         update_form();
         progress_backward();
@@ -731,8 +731,8 @@ back_click.forEach(function(back_click_form) {
 
 
 var submit_click = document.querySelectorAll(".submit_button");
-submit_click.forEach(function(submit_click_form) {
-    submit_click_form.addEventListener('click', function() {
+submit_click.forEach(function (submit_click_form) {
+    submit_click_form.addEventListener('click', function () {
         form_num++;
         update_form();
     });
@@ -740,7 +740,7 @@ submit_click.forEach(function(submit_click_form) {
 
 
 function update_form() {
-    main_form.forEach(function(main_form_number) {
+    main_form.forEach(function (main_form_number) {
         main_form_number.classList.remove('active');
     })
     main_form[form_num].classList.add('active');
@@ -873,14 +873,14 @@ function update_form() {
                     data: JSON.stringify({
                         data_js
                     }),
-                    success: function(response) {
+                    success: function (response) {
                         if (response) {
                             submit_dict.feature_im = response;
                             is_accepted = true;
                         }
                         console.log("get feature failed by server")
                     },
-                    error: function(xhr) {
+                    error: function (xhr) {
                         console.log("fail");
                     },
                 });
@@ -931,7 +931,7 @@ function progress_backward() {
 var step_num_content = document.querySelectorAll(".step-number-content");
 
 function content_change() {
-    step_num_content.forEach(function(content) {
+    step_num_content.forEach(function (content) {
         content.classList.remove('active');
         content.classList.add('d-none');
     });
@@ -943,7 +943,7 @@ function content_change() {
 function validate_form() {
     validate = true;
     var validate_inputs = document.querySelectorAll(".main.active input");
-    validate_inputs.forEach(function(validate_input) {
+    validate_inputs.forEach(function (validate_input) {
         validate_input.classList.remove('warning');
 
         if (validate_input.hasAttribute('require')) {
@@ -960,7 +960,7 @@ function validate_form() {
 var slider = document.getElementById("slider");
 var output = document.getElementById("focus");
 
-slider.onchange = function() {
+slider.onchange = function () {
     output.innerHTML = this.value;
 }
 var wrap_image = document.querySelectorAll(".wrap-image");
