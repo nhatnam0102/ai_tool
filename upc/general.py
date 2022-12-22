@@ -124,9 +124,39 @@ def w_h_image_rotate(image):
     return x, y, (x + w), (y + h)
 
 
-def cut_from_removed_background(image, save_path=None):
-    im = cv2.imread(image, cv2.IMREAD_UNCHANGED)
-    im_to_crop = cv2.imread(image, cv2.IMREAD_UNCHANGED)
+def cut_bg_image(im):
+    alpha_channel = im[:, :, 3]
+    rgb_channel = im[:, :, :3]
+    white_background = np.ones_like(rgb_channel, dtype=np.uint8) * 255
+
+    alpha_factor = alpha_channel[:, :, np.newaxis].astype(np.float32) / 255.0
+    alpha_factor = np.concatenate((alpha_factor, alpha_factor, alpha_factor), axis=2)
+
+    base = rgb_channel.astype(np.float32) * alpha_factor
+    white = white_background.astype(np.float32) * (1 - alpha_factor)
+    final_im = base + white
+    final_im = final_im.astype(np.uint8)
+
+    gray = cv2.cvtColor(final_im, cv2.COLOR_BGR2GRAY)
+    r1, t1 = cv2.threshold(gray, 240, 255, cv2.THRESH_BINARY_INV)
+    # t1=cv2.adaptiveThreshold(gray,255,cv2.ADAPTIVE_THRESH_MEAN_C,cv2.THRESH_BINARY,11,2)
+    c1, h1 = cv2.findContours(t1, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+
+    cnt = sorted(c1, key=cv2.contourArea, reverse=True)
+    x, y, w, h = cv2.boundingRect(cnt[0])
+    crop = im[y:y + h, x:x + w]
+    return crop
+
+
+def cut_from_removed_background(image, save_path=None, is_pil=False):
+    if is_pil:
+        im = image
+        im_to_crop = im.copy()
+
+    else:
+
+        im = cv2.imread(image, cv2.IMREAD_UNCHANGED)
+        im_to_crop = im.copy()
 
     alpha_channel = im[:, :, 3]
     rgb_channel = im[:, :, :3]

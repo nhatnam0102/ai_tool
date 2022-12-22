@@ -1,32 +1,28 @@
 import base64
 import threading
-
 import cv2
-
 import os
-
+import json
 import imutils
 import io
-
-from PIL import Image
-from flask_socketio import emit, join_room, leave_room, SocketIO
-from upc import general
-
-os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
-from flask import Flask, render_template, redirect, url_for, request, Response
 from datetime import datetime
 import torch.hub
 import numpy as np
 
 from upc.general import LOGGER
-
 from upc.config import Config
+from rembg import remove
+from PIL import Image
+from upc import general
+
+os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
+from flask import Flask, render_template, redirect, url_for, request, Response
 
 app = Flask(__name__)
 app.config.from_object(Config)
 
 detect_hub = None
-socketio = SocketIO(app, cors_allowed_origins='*')
+product_data = None
 
 
 class DetectHub(threading.Thread):
@@ -84,21 +80,15 @@ def init_model():
     detect_hub = DetectHub(source_yolo_path=os.getcwd(), weights=weights)
 
 
-def get_cameras():
-    return {'TOP': 0, 'SIDE': 1}
-
-
 @app.route('/index', methods=['GET', 'POST'])
 def index():
+    global product_data
+    product_data = None
     if request.method == 'POST':
         if request.form['btn_control'] == "btn_info":
             return redirect(url_for('information'))
         if request.form['btn_control'] == "btn_add":
             return redirect(url_for('add_product'))
-        if request.form['btn_control'] == "btn_change":
-            return redirect(url_for('change'))
-        if request.form['btn_control'] == "btn_augmentations":
-            return redirect(url_for('augmentations'))
 
     return render_template('index.html')
 
@@ -130,10 +120,61 @@ def camera_side(camera_id):
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
-@app.route('/add_product')
+@app.route('/add_product', methods=['GET', 'POST'])
 def add_product():
-    return render_template('add_product.html', cameras=get_cameras())
-    # return render_template('add_product.html')
+    global product_data
+    with open('./static/resource/json/wrap_image_data.json') as json_file:
+        wrap_data = json.load(json_file)
+
+    if request.method == 'GET':
+        if product_data and wrap_data:
+            return render_template('add_product.html', product_data=product_data, wrap_data=wrap_data)
+        else:
+            return render_template('add_product.html')
+    if request.method == "POST":
+        data = request.get_json()
+        if data:
+            product_data = data['submit_dict']
+            return "OK"
+        else:
+            return render_template('add_product.html')
+
+
+def base642opencv(base64_str):
+    src = base64_str.split(",")
+    imgdata = base64.b64decode(str(src[1]))
+    img = Image.open(io.BytesIO(imgdata))
+    img = general.toImgOpenCV(img)
+    return src[0], img
+
+
+@app.route('/get_feature_image', methods=["POST"])
+def get_feature_image():
+    if request.method == "POST":
+        try:
+            data = request.get_json()
+            im_data = data['data_js']['removed_im_data']
+            box = data['data_js']['boxes']
+            bs, img = base642opencv(im_data)
+            im_crop = img[int(box[1]):int(box[3]), int(box[0]):int(box[2])]
+            img_base64 = base64.b64encode(cv2.imencode('.png', im_crop)[1]).decode('utf-8')
+            return f"{bs},{img_base64}"
+        except Exception as e:
+            print(e)
+            return ""
+
+
+@app.route('/remove_bg', methods=["POST"])
+def remove_bg():
+    if request.method == "POST":
+        t1 = datetime.now()
+        base64_str = request.form['base64_data']
+        bs, img = base642opencv(base64_str)
+        img = remove(img)
+        img = general.cut_bg_image(img)
+        img_base64 = base64.b64encode(cv2.imencode('.png', img)[1]).decode('utf-8')
+        print(datetime.now() - t1)
+        return f"{bs},{img_base64}"
 
 
 def get_frame(camera_id):
@@ -288,32 +329,6 @@ def draw_put_text(draw_img, x1, y1, x2, y2, conf, cls, point=False, not_show_con
         # draw_img = cv2.polylines(draw_img, pts=[pts1], isClosed=False, color=color, thickness=thickness)
 
     return draw_img
-
-
-@socketio.on('image')
-def image(data_image):
-    sbuf = io.StringIO()
-    sbuf.write(data_image)
-
-    # decode and convert into image
-    b = io.BytesIO(base64.b64decode(data_image))
-    pimg = Image.open(b)
-
-    # converting RGB to BGR, as opencv standards
-    frame = cv2.cvtColor(general.toImgOpenCV(pimg), cv2.COLOR_RGB2BGR)
-
-    # Process the image frame
-    frame = imutils.resize(frame, width=700)
-    frame = cv2.flip(frame, 1)
-    imgencode = cv2.imencode('.jpg', frame)[1]
-
-    # base64 encode
-    stringData = base64.b64encode(imgencode).decode('utf-8')
-    b64_src = 'data:image/jpg;base64,'
-    stringData = b64_src + stringData
-
-    # emit the frame back
-    emit('response_back', stringData)
 
 
 @app.route("/")

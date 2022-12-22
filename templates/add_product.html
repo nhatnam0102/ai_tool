@@ -30,27 +30,33 @@ Add Product
                             <div class="card-body">
                                 <div class="row">
                                     <div class=" d-flex justify-content-center col-lg-6">
-                                            {% include 'top_register_product_modal.html' %}
-
+                                        <!--Open newProductModal Button-->
+                                        <div class="card-model d-flex justify-content-center align-items-center"
+                                             role="button"
+                                             data-bs-toggle="modal"
+                                             data-bs-target="#register-product-modal" id="btn_top_modal">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="label">上モデル</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% include 'register_product_modal.html' %}
                                     </div>
-                                    <div class="d-flex justify-content-center col-lg-6">
-                                       {% include 'side_register_product_modal.html' %}
+                                    <div class=" d-flex justify-content-center col-lg-6">
+                                        <!--Open newProductModal Button-->
+                                        <div class="card-model d-flex justify-content-center align-items-center"
+                                             role="button"
+                                             data-bs-toggle="modal"
+                                             data-bs-target="#register-product-modal" id="btn_side_modal">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="label">横モデル</div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!--Data Augmentation-->
-                    <div class="card-container">
-                        <div class="card-header">
-                            <a class="btn btn-custom" data-bs-toggle="collapse" href="#collapseThree">
-                                <h1 class="label">② データ拡張</h1>
-                            </a>
-                        </div>
-                        <div id="collapseThree" class="collapse" data-bs-parent="#accordion">
-                            <div class="card-body">
-                                Film, size, rotate,...
                             </div>
                         </div>
                     </div>
@@ -58,21 +64,141 @@ Add Product
             </div>
         </div>
         <div class="col-lg-8">
-            <!--                                    <script>-->
-            <!--                             navigator.mediaDevices.enumerateDevices().then(function (devices) {-->
-            <!--                                    for(var i = 0; i < devices.length; i ++){-->
-            <!--                                        var device = devices[i];-->
-            <!--                                        if (device.kind === 'videoinput') {-->
-            <!--                                            var option = document.createElement('option');-->
-            <!--                                            option.value = device.deviceId;-->
-            <!--                                            option.text = device.deviceId || 'camera ' + (i + 1);-->
-            <!--                                            document.querySelector('select#videoSource').appendChild(option);-->
-            <!--                                        }-->
-            <!--                                    };-->
-            <!--                                });-->
+            {% if product_data %}
+            <h3>・登録データ</h3>
+            <hr class="divider" style="width:30%">
+            <div class="grid">
+                <div class="prev-card">
+                    <div>
+                        <div class="label">※クラスID・デサインID</div>
+                        <div style="overflow-y:auto;width:90%;max-height:200px;">
+                            <div class="row justify-content-center align-items-center"
+                                 style="padding:0 !important;margin:0 !important;">
+                                <div class="col-sm-6">
+                                    <img id="prev_0" class="remove-photo"
+                                         src="{{ product_data.class_id_src }}">
+                                </div>
+                                <div class="col-sm-6">
+                                    <img class="remove-photo" src="{{ product_data.design_id_src }}">
+                                </div>
+                            </div>
 
-            <!--                                    </script>-->
-            <!--                                    <select id="videoSource"></select>-->
+                        </div>
+
+                    </div>
+                </div>
+                <div class="prev-card">
+                    <div>
+                        <div class="label">※画像</div>
+                        <div style="overflow-y:auto;max-height:200px;">
+
+                            <img id="prev_" class="remove-photo" src="{{ product_data.image_src }}">
+                        </div>
+
+                    </div>
+                </div>
+                <div class="prev-card">
+                    <div>
+                        <div class="label">※拒否画像</div>
+                        <div style="overflow-y:auto;max-height:200px;">
+
+                            <img id="prev_1" class="remove-photo" src="{{ product_data.rejection_im }}">
+                        </div>
+
+                    </div>
+                </div>
+                <div class="prev-card">
+                    <div>
+                        <div class="label">※特徴画像</div>
+                        <div style="overflow-y:auto;width:auto;max-height:200px;">
+
+                            <img id="prev_2" class="remove-photo" src="{{ product_data.feature_im }}">
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <h3 style="margin-top:50px">・データセット</h3>
+            <!--   <div class="hiddenCB">
+                   <div><input type="checkbox" name="choice" id="cb1"/><label for="cb1">フィルム</label></div>
+                   <div><input type="checkbox" name="choice" id="cb2"/><label for="cb2">サイズ</label></div>
+                   <div><input type="checkbox" name="choice" id="cb3"/><label for="cb3">回転</label></div>
+                   <div><input type="checkbox" name="choice" id="cb4"/><label for="cb4">斜め</label></div>
+               </div>-->
+            <div style="display:flex;">
+                <div class="mutil-checkbox">
+                    <input type="checkbox" id="checkbox1" hidden/>
+                    <label for="checkbox1" class="checkbox"><span class="icon"></span><span
+                            class="text">フィルム</span> <a data-bs-toggle="modal"
+                                                        data-bs-target="#view_modal">View</a></label>
+
+                </div>
+                <div class="mutil-checkbox">
+                    <input type="checkbox" id="checkbox2" hidden/>
+                    <label for="checkbox2" class="checkbox"><span class="icon"></span><span
+                            class="text">サイズ</span> <a href="">View</a></label>
+
+                </div>
+                <div class="mutil-checkbox">
+                    <input type="checkbox" id="checkbox3" hidden/>
+                    <label for="checkbox3" class="checkbox"><span class="icon"></span><span
+                            class="text">回転</span> <a href="">View</a></label>
+                </div>
+                <div class="mutil-checkbox">
+                    <input type="checkbox" id="checkbox4" hidden/>
+                    <label for="checkbox4" class="checkbox"><span class="icon"></span><span
+                            class="text">斜め</span> <a href="">View</a></label>
+
+
+                </div>
+                <!--  View Modal -->
+                <div class="modal fade" id="view_modal" tabindex="-1" role="dialog" aria-labelledby="ViewModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                WRAP 選択
+                                <div class="container-1">
+                                    <div class="ads_sponsors">
+                                        {% if wrap_data %}
+                                        {% for wrap in wrap_data %}
+                                        <div onclick="select_wrap(this)">
+                                            <img
+                                                 style="background-color: black;border-radius:10px;margin:5px;"
+                                                 src="data:image/png;base64,{{ wrap.wrap_src}}">
+                                            <a>Wrap {{ wrap.id }}</a>
+                                        </div>
+                                        {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                    <div>
+                                        <div class="row">
+                                            <div class="col-8 wrap-image-lo">
+                                                <img class="original-image" src="{{ product_data.image_src }}">
+                                                <img class="wrap-image" src="{{ product_data.image_src }}">
+                                            </div>
+                                            <div class="col-4">
+                                                <div id="list-wrap" class="list-wrap">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            {% else %}
+            <img src="{{url_for('static', filename='resource/icon/ai1.svg')}}"/>
+            {% endif %}
+
 
         </div>
 

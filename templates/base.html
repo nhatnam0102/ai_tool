@@ -10,22 +10,33 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/css/bootstrap.min.css') }}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='resource/u-icon.ico') }}">
+    <!-- ✅ Load slick CSS ✅ -->
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css"
+    />
+
+    <!-- ✅ Load slick theme CSS ✅ -->
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"
+    />
 </head>
 <body>
 
-<!--Navbar-->
-<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-    <div class="container-fluid">
-        <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)">Data Healthy Check</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)">Data Augmentation</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+<!--&lt;!&ndash;Navbar&ndash;&gt;-->
+<!--<nav class="navbar navbar-expand-sm navbar-dark bg-dark">-->
+<!--    <div class="container-fluid">-->
+<!--        <ul class="navbar-nav me-auto">-->
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" href="javascript:void(0)">Data Healthy Check</a>-->
+<!--            </li>-->
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" href="javascript:void(0)">Data Augmentation</a>-->
+<!--            </li>-->
+<!--        </ul>-->
+<!--    </div>-->
+<!--</nav>-->
 
 {% block content %}
 
@@ -34,9 +45,9 @@
 
 <!--JavaScript-->
 <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-<script src="{{url_for('static', filename='styles/my_js.js')}}"></script>
 <script src="{{url_for('static', filename='styles/js/bootstrap.bundle.min.js')}}"></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.0/socket.io.js'></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+<script src="{{url_for('static', filename='styles/my_js.js')}}"></script>
+
 
 </body>

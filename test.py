@@ -19,11 +19,6 @@ import albumentations as A
 
 JOIN = os.path.join
 ROOT = r"\\192.168.0.241\nam\yakult_project\Dataset\dataset_20220921"
-lists,_=general.get_all_file(r"\\192.168.0.241\nam\yakult_project\images_processed\20221202\merged")
-for f in lists:
-    old=f
-    new=JOIN(r"\\192.168.0.241\nam\yakult_project\images_processed\20221202\merged",f"20221205_{basename(f)}")
-    os.rename(old,new)
 
 # labels = join(ROOT, "side", "labels")
 # txt, _ = general.get_all_file(labels)
@@ -115,7 +110,7 @@ from upc import general
 
 # count_annotation(save_, "classes.txt")
 
-#check annotation
+# check annotation
 # general.check_annotation(r"\\192.168.0.241\nam\yakult_project\images_processed\20221202\top",
 #                          r"\\192.168.0.241\nam\yakult_project\images_processed\20221202\top",
 #                          r"\\192.168.0.241\nam\yakult_project\images_processed\20221202\test_top")
@@ -236,33 +231,174 @@ from upc import general
 #     if cv2.waitKey(1) & 0xFF == ord('q'):
 #         break
 
-# import base64
-# import json
-#
-# files, _ = general.get_all_file(r"\\192.168.0.241\nam\yakult_project\images_processed\list")
-# with open("./static/resource/top.txt","r", encoding='utf-8') as f:
-#     lines=[line.strip(" ") for line in f.readlines()]
-#
-#
-# data = []
-# for f in files:
-#     a = {}
-#     id1 = general.class_id(basename(f))
-#     print(id1)
-#     encode = base64.b64encode(open(f, "rb").read())
-#     a['id'] = int(id1)
-#     a['image'] = encode.decode('utf-8')
-#     a['name']=lines[int(id1)+1]
-#     data.append(a)
-# with open('./static/resource/data.json', 'w+') as f:
-#     # this would place the entire output on one line
-#     # use json.dump(lista_items, f, indent=4) to "pretty-print" with four spaces per indent
-#     json.dump(data, f)
+import base64
+import json
 
+#
+# #
+files, _ = general.get_all_file(r"\\192.168.0.241\nam\yakult_project\images_processed\20221019_check_with_parameter\wrap")
+print(files)
+data = []
+idx = 0
+for f in files:
+    a = {}
+
+    encode = base64.b64encode(open(f, "rb").read())
+    a['id'] = int(idx)
+    a['wrap_src'] = encode.decode('utf-8')
+
+    data.append(a)
+    idx += 1
+with open('static/resource/json/wrap_image_data.json', 'w+') as f:
+    # this would place the entire output on one line
+    # use json.dump(lista_items, f, indent=4) to "pretty-print" with four spaces per indent
+    json.dump(data, f)
+
+# encode = base64.b64encode(
+#     open(r"\\192.168.0.241\nam\yakult_project\images_processed\test_patern-matching\1.png", "rb").read())
+# with open('./static/resource/data.json', 'r+') as f:
+#     f_data = json.load(f)
+#     for data in f_data:
+#         if data['id'] == 0:
+#             data['design'].append(
+#                 {'design_id': 1, 'is_base': False, 'image_base64': encode.decode('utf-8'), 'current': True, })
+#             f.seek(0)
+#             json.dump(f_data, f, indent=4)
+#             break
 
 # TEMPLATE_MATCHING
+# import imutils
+# import math
 #
-# DEFAULT_TEMPLATE_MATCHING_THRESHOLD = 0.6
+# x = 0.4
+#
+#
+# def rotate_image(image, angle):
+#     """
+#     Rotates an OpenCV 2 / NumPy image about it's centre by the given angle
+#     (in degrees). The returned image will be large enough to hold the entire
+#     new image, with a black background
+#     """
+#
+#     # Get the image size
+#     # No that's not an error - NumPy stores image matricies backwards
+#     image_size = (image.shape[1], image.shape[0])
+#     image_center = tuple(np.array(image_size) / 2)
+#
+#     # Convert the OpenCV 3x2 rotation matrix to 3x3
+#     rot_mat = np.vstack(
+#         [cv2.getRotationMatrix2D(image_center, angle, 1.0), [0, 0, 1]]
+#     )
+#
+#     rot_mat_notranslate = np.matrix(rot_mat[0:2, 0:2])
+#
+#     # Shorthand for below calcs
+#     image_w2 = image_size[0] * 0.5
+#     image_h2 = image_size[1] * 0.5
+#
+#     # Obtain the rotated coordinates of the image corners
+#     rotated_coords = [
+#         (np.array([-image_w2, image_h2]) * rot_mat_notranslate).A[0],
+#         (np.array([image_w2, image_h2]) * rot_mat_notranslate).A[0],
+#         (np.array([-image_w2, -image_h2]) * rot_mat_notranslate).A[0],
+#         (np.array([image_w2, -image_h2]) * rot_mat_notranslate).A[0]
+#     ]
+#
+#     # Find the size of the new image
+#     x_coords = [pt[0] for pt in rotated_coords]
+#     x_pos = [x for x in x_coords if x > 0]
+#     x_neg = [x for x in x_coords if x < 0]
+#
+#     y_coords = [pt[1] for pt in rotated_coords]
+#     y_pos = [y for y in y_coords if y > 0]
+#     y_neg = [y for y in y_coords if y < 0]
+#
+#     right_bound = max(x_pos)
+#     left_bound = min(x_neg)
+#     top_bound = max(y_pos)
+#     bot_bound = min(y_neg)
+#
+#     new_w = int(abs(right_bound - left_bound))
+#     new_h = int(abs(top_bound - bot_bound))
+#
+#     # We require a translation matrix to keep the image centred
+#     trans_mat = np.matrix([
+#         [1, 0, int(new_w * 0.5 - image_w2)],
+#         [0, 1, int(new_h * 0.5 - image_h2)],
+#         [0, 0, 1]
+#     ])
+#
+#     # Compute the tranform for the combined rotation and translation
+#     affine_mat = (np.matrix(trans_mat) * np.matrix(rot_mat))[0:2, :]
+#
+#     # Apply the transform
+#     result = cv2.warpAffine(
+#         image,
+#         affine_mat,
+#         (new_w, new_h),
+#         flags=cv2.INTER_LINEAR
+#     )
+#
+#     return result
+#
+#
+# def largest_rotated_rect(w, h, angle):
+#     """
+#     Given a rectangle of size wxh that has been rotated by 'angle' (in
+#     radians), computes the width and height of the largest possible
+#     axis-aligned rectangle within the rotated rectangle.
+#
+#     Original JS code by 'Andri' and Magnus Hoff from Stack Overflow
+#
+#     Converted to Python by Aaron Snoswell
+#     """
+#
+#     quadrant = int(math.floor(angle / (math.pi / 2))) & 3
+#     sign_alpha = angle if ((quadrant & 1) == 0) else math.pi - angle
+#     alpha = (sign_alpha % math.pi + math.pi) % math.pi
+#
+#     bb_w = w * math.cos(alpha) + h * math.sin(alpha)
+#     bb_h = w * math.sin(alpha) + h * math.cos(alpha)
+#
+#     gamma = math.atan2(bb_w, bb_w) if (w < h) else math.atan2(bb_w, bb_w)
+#
+#     delta = math.pi - alpha - gamma
+#
+#     length = h if (w < h) else w
+#
+#     d = length * math.cos(alpha)
+#     a = d * math.sin(alpha) / math.sin(delta)
+#
+#     y = a * math.cos(gamma)
+#     x = y * math.tan(gamma)
+#
+#     return (
+#         bb_w - 2 * x,
+#         bb_h - 2 * y
+#     )
+#
+#
+# def crop_around_center(image, width, height):
+#     """
+#     Given a NumPy / OpenCV 2 image, crops it to the given width and height,
+#     around it's centre point
+#     """
+#
+#     image_size = (image.shape[1], image.shape[0])
+#     image_center = (int(image_size[0] * 0.5), int(image_size[1] * 0.5))
+#
+#     if width > image_size[0]:
+#         width = image_size[0]
+#
+#     if height > image_size[1]:
+#         height = image_size[1]
+#
+#     x1 = int(image_center[0] - width * 0.5)
+#     x2 = int(image_center[0] + width * 0.5)
+#     y1 = int(image_center[1] - height * 0.5)
+#     y2 = int(image_center[1] + height * 0.5)
+#
+#     return image[y1:y2, x1:x2]
 #
 #
 # def compute_iou(
@@ -284,21 +420,6 @@ from upc import general
 #         non_max_suppression_threshold=0.5,
 #         score_key="MATCH_VALUE",
 # ):
-#     """
-#     Filter objects overlapping with IoU over threshold by keeping only the one with maximum score.
-#     Args:
-#         objects (List[dict]): a list of objects dictionaries, with:
-#             {score_key} (float): the object score
-#             {top_left_x} (float): the top-left x-axis coordinate of the object bounding box
-#             {top_left_y} (float): the top-left y-axis coordinate of the object bounding box
-#             {bottom_right_x} (float): the bottom-right x-axis coordinate of the object bounding box
-#             {bottom_right_y} (float): the bottom-right y-axis coordinate of the object bounding box
-#         non_max_suppression_threshold (float): the minimum IoU value used to filter overlapping boxes when
-#             conducting non max suppression.
-#         score_key (str): score key in objects dicts
-#     Returns:
-#         List[dict]: the filtered list of dictionaries.
-#     """
 #     sorted_objects = sorted(objects, key=lambda obj: obj[score_key], reverse=True)
 #     filtered_objects = []
 #     for object_ in sorted_objects:
@@ -313,80 +434,103 @@ from upc import general
 #     return filtered_objects
 #
 #
+# detections = []
+#
+#
+# def matching(template_, image_gray_):
+#
+#     global detections
+#     template_matching = cv2.matchTemplate(template_.template, image_gray_, cv2.TM_CCOEFF_NORMED)
+#     match_locations = np.where(template_matching >= template_.matching_threshold)
+#
+#     for (x, y) in zip(match_locations[1], match_locations[0]):
+#         match = {
+#             "TOP_LEFT_X": x,
+#             "TOP_LEFT_Y": y,
+#             "BOTTOM_RIGHT_X": x + template_.template_width,
+#             "BOTTOM_RIGHT_Y": y + template_.template_height,
+#             "MATCH_VALUE": template_matching[y, x],
+#             "LABEL": template_.label,
+#         }
+#
+#         detections.append(match)
+#     print("da xu ly")
+#
+#
+#
 # class Template:
 #     """
 #     A class defining a template
 #     """
 #
-#     def __init__(self, image_path, label, color, matching_threshold=DEFAULT_TEMPLATE_MATCHING_THRESHOLD):
-#         """
-#         Args:
-#             image_path (str): path of the template image path
-#             label (str): the label corresponding to the template
-#             color (List[int]): the color associated with the label (to plot detections)
-#             matching_threshold (float): the minimum similarity score to consider an object is detected by template
-#                 matching
-#         """
-#         self.image_path = image_path
+#     def __init__(self, image_, label, matching_threshold=0.8):
 #         self.label = label
-#         self.color = color
-#         self.template = cv2.imread(image_path)
+#         self.template = image_
 #         self.template_height, self.template_width = self.template.shape[:2]
 #         self.matching_threshold = matching_threshold
 #
 #
-# files, _ = general.get_all_file(r"\\192.168.0.241\nam\yakult_project\images_processed\test_patern-matching\patern")
-# file1, _ = general.get_all_file(r"\\192.168.0.241\nam\yakult_project\images_processed\test_patern-matching\temp")
+# org_images, _ = general.get_all_file(
+#     r"\\192.168.0.241\nam\yakult_project\images_processed\test_pattern-matching\pattern")
+# temps, _ = general.get_all_file(r"\\192.168.0.241\nam\yakult_project\images_processed\test_pattern-matching\temp")
 # templates = []
-# for f in file1:
-#     templates.append(Template(image_path=f, label="1",
-#                               color=(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))))
+# thread=[]
+# for f in temps:
+#     template_ = cv2.imread(f, cv2.IMREAD_UNCHANGED)
+#     h, w = template_.shape[:2]
+#     for i in range(0, 360, 10):
+#         # template_custom = general.rotate_image(template_, i)
+#         template_custom = rotate_image(template_, i)
+#         template_custom = crop_around_center(template_custom,
+#                                              *largest_rotated_rect(
+#                                                  w,
+#                                                  h,
+#                                                  math.radians(i)
+#                                              ))
 #
-# for img in files:
-#     t1 = datetime.now()
-#     image = cv2.imread(img)
+#         template_custom = cv2.resize(template_custom, (0, 0), fx=0.5, fy=0.5)
+#         template_custom = cv2.cvtColor(template_custom, cv2.COLOR_BGR2GRAY)
+#         # cv2.imwrite(
+#         #     join(r"\\192.168.0.241\nam\yakult_project\images_processed\test_patern-matching\temp",
+#         #          f"{basename(f)[:-4]}_{i}.png"),
+#         #     template_custom)
+#         templates.append(Template(image_=template_custom, label="1"))
+#
+# for img in org_images:
 #     detections = []
-#     for template in templates:
-#         template_matching = cv2.matchTemplate(
-#             template.template, image, cv2.TM_CCOEFF_NORMED
-#         )
-#
-#         match_locations = np.where(template_matching >= template.matching_threshold)
-#
-#         for (x, y) in zip(match_locations[1], match_locations[0]):
-#             match = {
-#                 "TOP_LEFT_X": x,
-#                 "TOP_LEFT_Y": y,
-#                 "BOTTOM_RIGHT_X": x + template.template_width,
-#                 "BOTTOM_RIGHT_Y": y + template.template_height,
-#                 "MATCH_VALUE": template_matching[y, x],
-#                 "LABEL": template.label,
-#                 "COLOR": template.color
-#             }
-#
-#             detections.append(match)
-#
+#     t1 = datetime.now()
+#     image = cv2.imread(img, cv2.IMREAD_UNCHANGED)
+#     image = cv2.resize(image, (0, 0), fx=0.5, fy=0.5)
+#     image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+#     for template_ in templates:
+#         t = threading.Thread(target=matching, args=([template_, image_gray]))
+#         t.start()
+#         thread.append(t)
+#     for i in thread:
+#         i.join()
+#     print("ok")
 #     NMS_THRESHOLD = 0.2
 #     detections = non_max_suppression(detections, non_max_suppression_threshold=NMS_THRESHOLD)
 #     image_with_detections = image.copy()
+#     print(datetime.now() - t1)
+#
 #     for detection in detections:
 #         cv2.rectangle(
 #             image_with_detections,
 #             (detection["TOP_LEFT_X"], detection["TOP_LEFT_Y"]),
 #             (detection["BOTTOM_RIGHT_X"], detection["BOTTOM_RIGHT_Y"]),
-#             detection["COLOR"],
+#             (0, 255, 0),
 #             2,
 #         )
 #         cv2.putText(
 #             image_with_detections,
-#             f"{detection['LABEL']} - {detection['MATCH_VALUE']}",
+#             f"{detection['LABEL']} - {round(detection['MATCH_VALUE'] * 100)}",
 #             (detection["TOP_LEFT_X"] + 2, detection["TOP_LEFT_Y"] + 20),
 #             cv2.FONT_HERSHEY_SIMPLEX,
-#             0.5,
-#             detection["COLOR"],
 #             1,
+#             (0, 255, 0),
+#             4,
 #             cv2.LINE_AA,
 #         )
-#     cv2.imwrite(join(r"\\192.168.0.241\nam\yakult_project\images_processed\test_patern-matching\save",
+#     cv2.imwrite(join(r"\\192.168.0.241\nam\yakult_project\images_processed\test_pattern-matching\save",
 #                      f"{basename(img)[:-4]}.png"), image_with_detections)
-#     print(datetime.now() - t1)
