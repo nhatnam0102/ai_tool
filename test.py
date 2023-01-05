@@ -79,9 +79,9 @@ old_cls_top = [0, 42, 43, 44, 2, 3, 5, 6, 8, 9, 11, 12, 14, 15, 17, 18, 20, 22, 
 
 import threading
 from datetime import datetime
-
 import numpy as np
 from upc import general
+
 
 # create_dataset(r"\\192.168.0.241\nam\yakult_project\images_processed\20221019_check_with_parameter\Dataset\20221102",
 #                r"\\192.168.0.241\nam\yakult_project\images_processed\20221019_check_with_parameter\merged",
@@ -99,14 +99,15 @@ from upc import general
 #         new = join(save_merge3, basename(f)[:-4] + "-hsv.txt")
 #         shutil.copy(old, new)
 
-# save_ = r"\\192.168.0.241\nam\yakult_project\images_processed\20221202\merged"
-# general.merge_thread(p_foregrounds=r"\\192.168.0.241\nam\yakult_project\images_processed\20221202\resize_1",
-#                      p_backgrounds=r"\\192.168.0.241\nam\yakult_project\images_processed\background_1\top_bg",
-#                      p_save=save_,
-#                      rotate_=359,
-#                      cutout_=True,
-#                      name="{time}"
-#                      )
+
+save_ = r"\\192.168.0.241\nam\yakult_project\images_processed\20230105\merged"
+general.merge_thread(p_foregrounds=r"\\192.168.0.241\nam\yakult_project\images_processed\20230105\resize",
+                     p_backgrounds=r"\\192.168.0.241\nam\yakult_project\images_processed\background_1\top_bg",
+                     p_save=save_,
+                     rotate_=359,
+                     cutout_=True,
+                     name=f"{datetime.now().strftime('%H%M%S')}"
+                     )
 
 # count_annotation(save_, "classes.txt")
 
@@ -116,9 +117,9 @@ from upc import general
 #                          r"\\192.168.0.241\nam\yakult_project\images_processed\20221202\test_top")
 
 # # Resize
-# files, _ = general.get_all_file(r"\\192.168.0.241\nam\yakult_project\images_processed\20221202\processed")
-# save1 = r"\\192.168.0.241\nam\yakult_project\images_processed\20221202\resize_1"
-# general.resize(files, save1)
+# files, _ = general.get_all_file(r"\\192.168.0.241\nam\yakult_project\images_processed\20230105\processed")
+# save1 = r"\\192.168.0.241\nam\yakult_project\images_processed\20230105\resize"
+# general.resize(files, save1,range_stop=11)
 
 # Add Plastic Film
 # p_wrap = r"\\192.168.0.241\nam\yakult_project\images_processed\20221019_check_with_parameter\wrap"
@@ -160,10 +161,11 @@ from upc import general
 #     im = general.remove_background(rm,join(save_p,basename(rm)))
 #     general.cut_from_removed_background(join(save_p,basename(rm)),join(save_processed,basename(rm)))
 
-# im = general.remove_background(
-#     r"\\192.168.0.241\nam\yakult_project\images_processed\20221111\new\image\before_top_20221107_092627.png",
-#     save_path=r"\\192.168.0.241\nam\yakult_project\images_processed\20221111\new\original\76_01-1.png")
-# general.cut_from_removed_background("./76_01-1.png")
+# general.remove_background(
+#     r"\\192.168.0.241\nam\yakult_project\images_processed\20230105\new\before_top_20221216_103826_0.png",
+#     save_path=r"\\192.168.0.241\nam\yakult_project\images_processed\20230105\removed\87_01-1.png")
+# general.cut_from_removed_background(r"\\192.168.0.241\nam\yakult_project\images_processed\20230105\removed\87_01-1.png",
+# save_path=r"\\192.168.0.241\nam\yakult_project\images_processed\20230105\processed\87_01-1.png")
 # cv2.imwrite("75_01-1.png", im)
 # files, _ = general.get_all_file(r"\\192.168.0.241\nam\yakult_project\images_processed\20221118\affine")
 # for imp in files:
@@ -231,28 +233,28 @@ from upc import general
 #     if cv2.waitKey(1) & 0xFF == ord('q'):
 #         break
 
-import base64
-import json
+# import base64
+# import json
 
-#
 # #
-files, _ = general.get_all_file(r"\\192.168.0.241\nam\yakult_project\images_processed\20221019_check_with_parameter\wrap")
-print(files)
-data = []
-idx = 0
-for f in files:
-    a = {}
+# # #
+# files, _ = general.get_all_file(r"\\192.168.0.241\nam\yakult_project\images_processed\20221019_check_with_parameter\wrap")
+# print(files)
+# data = []
+# idx = 0
+# for f in files:
+#     a = {}
 
-    encode = base64.b64encode(open(f, "rb").read())
-    a['id'] = int(idx)
-    a['wrap_src'] = encode.decode('utf-8')
+#     encode = base64.b64encode(open(f, "rb").read())
+#     a['id'] = int(idx)
+#     a['wrap_src'] = encode.decode('utf-8')
 
-    data.append(a)
-    idx += 1
-with open('static/resource/json/wrap_image_data.json', 'w+') as f:
-    # this would place the entire output on one line
-    # use json.dump(lista_items, f, indent=4) to "pretty-print" with four spaces per indent
-    json.dump(data, f)
+#     data.append(a)
+#     idx += 1
+# with open('static/resource/json/wrap_image_data.json', 'w+') as f:
+#     # this would place the entire output on one line
+#     # use json.dump(lista_items, f, indent=4) to "pretty-print" with four spaces per indent
+#     json.dump(data, f)
 
 # encode = base64.b64encode(
 #     open(r"\\192.168.0.241\nam\yakult_project\images_processed\test_patern-matching\1.png", "rb").read())

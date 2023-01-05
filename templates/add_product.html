@@ -9,11 +9,25 @@ Add Product
 
     <div class="row">
         <!--Screen Title-->
-        <div>
+        <!-- <div class="col-4">
             <h2>新製品登録 <img src="{{url_for('static', filename='resource/icon/add.svg')}}"
                            style="width:20px;height:20px;margin-bottom:5px;" alt="add"/></h2>
-            <hr class="divider">
+        </div> -->
+        <div class="col-8" style="display: flex!important; justify-content: left;
+        align-items: center;margin-top: 10px;">
+            <div class="nav1">
+                <input type="checkbox">
+                  <span></span>
+                  <span></span>
+                  <div class="menu">
+                    <li><a href="#">ホーム</a></li>
+                    <li><a data-bs-toggle="modal"
+                        data-bs-target="#camera_setting_modal">カメラ設定</a></li>
+                  </div>
+              </div>
         </div>
+        </div>
+        <div class="row">
         <div class="col-lg-4">
             <!--Menu Collapse-->
             <div class="container mt-3">
@@ -194,6 +208,8 @@ Add Product
                     </div>
                 </div>
 
+             
+            </div>
             </div>
             {% else %}
             <img src="{{url_for('static', filename='resource/icon/ai1.svg')}}"/>
@@ -205,6 +221,21 @@ Add Product
     </div>
 
 </div>
+
+    <!--  Camera Setting Modal -->
+    <div class="modal fade" id="camera_setting_modal" tabindex="-1" role="dialog" aria-labelledby="CameraSettingModalLabel"
+    aria-hidden="true">
+   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+       <div class="modal-content">
+           <div class="modal-body">
+             
+           </div>
+           <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+               <button type="button" class="btn btn-primary">Save changes</button>
+           </div>
+       </div>
+   </div>
 
 {% endblock %}
 <!--   <div class="col-lg-6">&ndash;&gt;-->

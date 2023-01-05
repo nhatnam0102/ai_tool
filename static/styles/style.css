@@ -1326,3 +1326,91 @@ select {
     animation: fadeInLeft 0.5s ease-in-out;
     background: #EAFAF1;
 }
+
+.nav1, .menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav1 {
+    position: relative;
+    background-color: #fff;
+    padding: 5px;
+    transition: 0.5s;
+    border-radius: 50px;
+    overflow: hidden;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, .2);
+}
+
+.menu {
+    margin: 0;
+    padding: 0;
+    width: 0;
+    height: 30px;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: 0.5s;
+}
+
+.nav1 input:checked~.menu {
+    width: 350px;
+    height: 30px;
+}
+
+.menu li {
+    list-style: none;
+    margin: 0 15px;
+    height: 30px;
+}
+
+.menu li a {
+    text-decoration: none;
+    color: #666;
+    text-transform: uppercase;
+    font-weight: 600;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.menu li a:hover {
+    color: navy;
+}
+
+.nav1 input {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    opacity: 0;
+}
+
+.nav1 span {
+    position: absolute;
+    left: 10px;
+    width: 20px;
+    height: 4px;
+    border-radius: 50px;
+    background-color: #666;
+    pointer-events: none;
+    transition: 0.25s;
+}
+
+.nav1 input:checked~span {
+    background-color: #f974a1;
+}
+
+.nav1 span:nth-child(2) {
+    transform: translateY(-8px);
+}
+
+.nav1 input:checked~span:nth-child(2) {
+    transform: translateY(0) rotate(-45deg);
+}
+
+.nav1 span:nth-child(3) {
+    transform: translateY(8px);
+}
+
+.nav1 input:checked~span:nth-child(3) {
+    transform: translateY(0) rotate(45deg);
+}
