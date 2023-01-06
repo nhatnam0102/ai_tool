@@ -140,6 +140,24 @@ def add_product():
             return render_template('add_product.html')
 
 
+@app.route('/camera_manager',methods=['POST','GET'])
+def camera_manager():
+    if request.method == 'GET':
+        return "OK"
+      
+    if request.method == 'POST':
+        data = request.get_json()
+        print(data)
+        cameras={'TOP_ID':data['cameras']['TOP_ID'],'SIDE_ID':data['cameras']['SIDE_ID']}
+        with open('static/resource/json/camera_manager.json', 'w+') as f:
+            json.dump(cameras, f)
+
+        return 'OK'
+        # cameras={'TOP_ID':data['TOP_ID'],'SIDE_ID':data['SIDE_ID']}
+        # with open('static/resource/json/camera_manager.json', 'w+') as f:
+        #     json.dump(cameras, f)
+
+
 def base642opencv(base64_str):
     src = base64_str.split(",")
     imgdata = base64.b64decode(str(src[1]))

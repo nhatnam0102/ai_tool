@@ -20,9 +20,9 @@ Add Product
                   <span></span>
                   <span></span>
                   <div class="menu">
-                    <li><a href="#">ホーム</a></li>
-                    <li><a data-bs-toggle="modal"
-                        data-bs-target="#camera_setting_modal">カメラ設定</a></li>
+                    <li><a href="#"><i class="fa-solid fa-house fa-1x"></i> ホーム</a></li>
+                    <li><a id='btn_setting_camera' data-bs-toggle="modal"
+                        data-bs-target="#camera_setting_modal"><i class="fa-solid fa-gear fa-1x"></i> カメラ設定</a></li>
                   </div>
               </div>
         </div>
@@ -36,8 +36,8 @@ Add Product
                     <!--Model Choose-->
                     <div class=" card-container">
                         <div class="card-header">
-                            <a class="btn btn-custom" data-bs-toggle="collapse" href="#collapseOne">
-                                <h1 class="label"> ① モデル選択</h1>
+                            <a class="btn-custom" data-bs-toggle="collapse" href="#collapseOne">
+                                <h1 class="label"><i class="fa-solid fa-circle-plus fa-1x"></i> 新製品登録</h1>
                             </a>
                         </div>
                         <div id="collapseOne" class="collapse" data-bs-parent="#accordion">
@@ -207,42 +207,43 @@ Add Product
                         </div>
                     </div>
                 </div>
-
-             
             </div>
             </div>
             {% else %}
             <img src="{{url_for('static', filename='resource/icon/ai1.svg')}}"/>
             {% endif %}
-
-
         </div>
-
     </div>
-
 </div>
 
     <!--  Camera Setting Modal -->
-    <div class="modal fade" id="camera_setting_modal" tabindex="-1" role="dialog" aria-labelledby="CameraSettingModalLabel"
+    <div class="modal fade" id="camera_setting_modal" tabindex="-1" role="dialog" aria-labelledby="CameraSettingModalLabel"   data-bs-keyboard="false" data-bs-backdrop="static"
     aria-hidden="true">
-   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-       <div class="modal-content">
+   <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+       <div class="modal-content" style="height: 450px;">
            <div class="modal-body">
-             
+            <div class="row justify-content-center align-items-center" style="height: 350px;">
+                <div class="col-5" style="position: relative;">
+                    </video>
+                    <div class="text-camera fadeIn" >上</div>
+                       <video id="cam1" class="cam">
+                </div>
+                <div class="col-2">
+                    <a id="change_camera" style="display: flex;
+                    justify-content: space-around;"><i class="fa-solid fa-right-left fa-6x"></i></a>
+            </div>
+                <div class="col-5"  style="position: relative;">
+                    <div class="text-camera fadeIn" >横</div>
+                    <video id="cam2" class="cam">
+                    </video>
+                </div>
+            </div>
            </div>
            <div class="modal-footer">
-               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-               <button type="button" class="btn btn-primary">Save changes</button>
+               <button type="button" class="btn btn-secondary" id="close_camera_setting" data-bs-dismiss="modal">Close</button>
+               <!-- <button type="button" class="btn" style="background:Navy;color:white;">Save changes</button> -->
            </div>
        </div>
    </div>
 
 {% endblock %}
-<!--   <div class="col-lg-6">&ndash;&gt;-->
-<!--                    <img src="{{ url_for('camera_top', camera_id=cameras['TOP']) }}" width="100%" class="rounded"><br/>-->
-<!--                </div>-->
-<!--                <div class="col-lg-6">-->
-<!--                    <img src="{{ url_for('camera_side', camera_id=cameras['SIDE']) }}" width="100%"-->
-<!--                         class="rounded"><br/>-->
-<!--                </div>
-

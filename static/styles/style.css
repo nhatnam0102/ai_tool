@@ -52,7 +52,7 @@ body {
     margin-bottom: 5px;
     border-radius: 10px;
     background: #fff;
-    border: 1px solid gainsboro;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, .2);
 }
 
 .loaded-photo {
@@ -63,10 +63,11 @@ body {
 
 .card-model {
     margin: 10px;
-    border-radius: 15px;
+    border-radius: 5px;
     height: 100px;
     width: 200px;
-    border: 1px solid gainsboro;
+    box-shadow: inset -3px -3px 6px rgba(255, 255, 255, 0.5),
+        inset 3px 3px 6px rgba(70, 70, 70, 0.12);
 }
 
 .card-model:hover {
@@ -119,14 +120,16 @@ body {
 .btn-custom {
     display: flex !important;
     border-radius: 10px !important;
-    background: #F7F9F9 !important;
+    background: #fff !important;
     border: none !important;
+    text-decoration: none !important;
 }
 
 .btn-custom:active {
     border: none !important;
     border-radius: 10px !important;
     background: #fff !important;
+    text-decoration: none !important;
 }
 
 .btn_ {
@@ -296,6 +299,7 @@ span.msg, span.choose {
     width: 100%;
     height: 100%;
     position: relative;
+    transition: 0.5s;
 }
 
 .photo {
@@ -1413,4 +1417,20 @@ select {
 
 .nav1 input:checked~span:nth-child(3) {
     transform: translateY(0) rotate(45deg);
+}
+
+.text-camera {
+    -webkit-text-stroke: 2px navy;
+    position: absolute;
+    z-index: 1;
+    width: 90%;
+    display: flex;
+    height: 100%;
+    flex-direction: column-reverse;
+    flex-wrap: nowrap;
+    font-size: 70px;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.7);
+    justify-content: center;
+    align-items: center;
 }

@@ -37,6 +37,7 @@ const none_image =
 //Init submit dictionary --> send to server
 let submit_dict = {
   camera: null,
+  camera_id: null,
   product_type: "new",
   class_id: null,
   class_id_src: null,
@@ -58,6 +59,8 @@ input_element.addEventListener("keyup", () => {
 
 let top_data = null;
 let side_data = null;
+
+
 
 function readTextFile() {
   //Get top data
@@ -108,19 +111,32 @@ $("#btn_side_modal").on("click", function (event) {
   submit_dict.class_id = side_data;
   submit_dict.design_id = 0;
 });
+let cameras = null;
+fetch("static/resource/json/camera_manager.json")
+  .then((response) => {
+    return response.json();
+  })
+  .then((data) => {
+    cameras = data;
+    console.log(cameras);
+  })
+  .catch((err) => {
+    // TODO do something
+  });
 
 //Set camera id of top or side
 document.getElementById("init_camera").onclick = (event) => {
   if (!submit_dict.camera) {
     alert("Camera is not found");
-  } else if (submit_dict.camera == "top") {
-    getPhotoFromCamera(
-      "ec0f33c7b87862c1c21b37238a5724ddc15d982ab3bc38c742e3318a959e16ef"
-    );
-  } else if (submit_dict.camera == "side")
-    getPhotoFromCamera(
-      "deedc2c4b18a65ee1306b94207fb59d1a184194babbe4ad6679606f9818cd568"
-    );
+    return;
+  }
+  if (cameras.TOP_ID.length == 0 || cameras.SIDE_ID.length == 0) {
+    alert("Camera is not found ! Please setting Camera");
+    return;
+  }
+  if (submit_dict.camera == "top") {
+    getPhotoFromCamera(cameras.TOP_ID);
+  } else if (submit_dict.camera == "side") getPhotoFromCamera(cameras.SIDE_ID);
 };
 
 //clear photo
@@ -477,19 +493,6 @@ fetch("static/resource/json/data.json")
     // TODO do something
   });
 
-//let wrap_data=null;
-//fetch('static/resource/json/wrap_image_data.json').then(response => {
-//    return response.json();
-//}).then(data => {
-//    wrap_data = data;
-//    wrap_arr = wrap_data.map((data) => {
-//            return data = `<div><img src="data:image/png;base64,${data.wrap_src}"></div>`;});
-//    wrap=wrap_arr.join('');
-//   $('.ads_sponsors').html(wrap);
-//}).catch(err => {
-//    // TODO do something
-//});
-
 // Search CLASS ID
 const search_input_for_class_id = document.getElementById(
   "search_input_for_class_id"
@@ -601,7 +604,7 @@ existed_design_id_input.oninput = (e) => {
 
 function select_for_class_id(element) {
   let all_li = element.querySelectorAll("div");
-  product_id = "";
+  let product_id = "";
   for (let i = 0; i < all_li.length; i++) {
     if (all_li[i].getAttribute("value") == null) {
       continue;
@@ -610,13 +613,17 @@ function select_for_class_id(element) {
       break;
     }
   }
+
   let selectData = element.textContent;
   existed_class_id_input.value = selectData.trim();
   submit_dict.class_id = product_id;
+
   search_input_for_class_id.classList.remove("active");
+
   let image_src = element.querySelector("img");
   class_image.setAttribute("src", image_src.src);
   submit_dict.class_id_src = image_src.src;
+
   document.getElementById("class_image_layout").classList.remove("d-none");
   product_design_data = product_data.filter((data) => {
     return data.id == product_id;
@@ -640,7 +647,7 @@ function select_for_class_id(element) {
 
 function select_for_design_id(element) {
   let all_li = element.querySelectorAll("div");
-  design_id = "";
+  let design_id = "";
   for (let i = 0; i < all_li.length; i++) {
     if (all_li[i].getAttribute("value") == null) {
       continue;
@@ -737,6 +744,7 @@ function update_form() {
     draw_photo = document.getElementById("photo-draw");
     draw_canvas = document.getElementById("canvas-draw");
     const modal = document.getElementById("smallModal");
+
     let denied_button = document.getElementById("denied_button");
     let accepted_button = document.getElementById("accepted_button");
     if (submit_dict.image_src) {
@@ -1151,4 +1159,81 @@ $(".ads_sponsors").slick({
   //speed: 500,
   //slidesToShow: 4,
   //slidesToScroll: 4,
+});
+
+function stopStream(stream) {
+  stream.getVideoTracks().forEach(function (track) {
+    track.stop();
+  });
+}
+function setting_camera(device_id, video_src) {
+  let cons = {
+    audio: false,
+    video: {
+      deviceId: device_id,
+      width: {
+        min: 640,
+        max: 1920,
+      },
+      height: {
+        min: 360,
+        max: 1080,
+      },
+    },
+  };
+  navigator.mediaDevices
+    .getUserMedia(cons)
+    .then((stream) => {
+      video_src.srcObject = stream;
+      video_src.onloadedmetadata = () => {
+        video_src.play();
+      };
+      $("#close_camera_setting").on("click", () => {
+        stopStream(stream);
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+$("#btn_setting_camera").on("click", async () => {
+  const cam1 = document.getElementById("cam1");
+  const cam2 = document.getElementById("cam2");
+
+  let devices = await navigator.mediaDevices.enumerateDevices();
+  let cams = [];
+  if (cameras.TOP_ID.length == 0 || cameras.SIDE_ID.length == 0) {
+    for (var i = 0; i < devices.length; i++) {
+      var device = devices[i];
+      if (device.kind === "videoinput" && device.label.includes("StreamCam")) {
+        cams.push(device.deviceId);
+      }
+    }
+    cameras.TOP_ID = cams[0];
+    cameras.SIDE_ID = cams[1];
+    console.log(cameras);
+  }
+  setting_camera(cameras.TOP_ID, (video_src = cam1));
+
+  setting_camera(cameras.SIDE_ID, (video_src = cam2));
+});
+$("#change_camera").on("click", () => {
+  [cameras.TOP_ID, cameras.SIDE_ID] = [cameras.SIDE_ID, cameras.TOP_ID];
+  $.ajax({
+    url: "/camera_manager",
+    type: "POST",
+    contentType: "application/json;charset=utf-8",
+    data: JSON.stringify({
+      cameras,
+    }),
+    success: function (response) {
+      console.log(response);
+    },
+    error: function (err) {
+      console.log(err);
+    },
+  });
+  setting_camera(cameras.TOP_ID, (video_src = cam1));
+  setting_camera(cameras.SIDE_ID, (video_src = cam2));
 });
