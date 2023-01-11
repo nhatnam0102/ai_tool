@@ -1,372 +1,527 @@
 <!DOCTYPE html>
 
-
 <!-- newProductModal -->
-<div class="modal fade" id="register-product-modal" tabindex="-1" aria-labelledby="large-modal-label" aria-hidden="true"
-    data-bs-keyboard="false" data-bs-backdrop="static">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <!--Close Button side Modal-->
-                <button type="button" class="btn-close register-modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" style="padding : 0px !important;">
-                <div class="steps-container">
-                    <div class="card" style="padding:0 !important;margin:0 !important;">
-                        <div class="form">
-                            <div class="left-side">
-                                <div class="left-heading">
-                                    <h3>商品登録</h3>
-                                </div>
-                                <div class="steps-content">
-                                    <h3>ステップ<span class="step-number">1</span></h3>
-                                    <p class="step-number-content active">新商品・現商品を登録する。</p>
-                                    <p class="step-number-content d-none">画像を登録する</p>
-                                    <p class="step-number-content d-none">特長画像を取得する</p>
-                                    <p class="step-number-content d-none">確認</p>
-                                </div>
-                                <ul class="progress-bar">
-                                    <li class="active">ID登録</li>
-                                    <li>画像登録</li>
-                                    <li>特徴画像登録</li>
-                                    <li>確認</li>
-                                </ul>
-                            </div>
-                            <div class="right-side">
-                                <div class="main active">
-                                    <div class="row d-flex justify-content-center align-items-center">
-                                        <!--New or Old Product choose-->
-                                        <div class="wrapper-choose-product">
-                                            <input type="radio" name="select" id="option-1">
-                                            <input type="radio" name="select" id="option-2">
-                                            <label for="option-1" class="option option-1">
-                                                <div class="dot"></div>
-                                                <span>新製品</span>
-                                            </label>
-                                            <label for="option-2" class="option option-2">
-                                                <div class="dot"></div>
-                                                <span>現製品</span>
-                                            </label>
-                                        </div>
-
-                                    </div>
-                                    <div id="new-product-input" class="fadeIn">
-                                        <div class="row" style="margin-bottom:5px;">
-                                            <div class="col-2 text-end">
-                                                <div class="label">
-                                                    クラスID :
-                                                </div>
-                                            </div>
-                                            <div class="col-3 text-start">
-                                                <input id="new_class_id" type="text" class="input-text-1" readonly
-                                                    value="">
-                                            </div>
-                                            <div class="col-lg-4 text-start">
-                                                クラスIDが自動登録されます。
-                                            </div>
-                                        </div>
-                                        <div class="row" style="margin-bottom:5px;">
-                                            <div class="col-2 text-end">
-                                                <div class="label">
-                                                    デサインID:
-                                                </div>
-                                            </div>
-                                            <div class="col-3 text-start">
-                                                <input id="new_design_id" type="text" class="input-text-1" readonly
-                                                    value="0">
-                                            </div>
-                                            <div class="col-4 text-start">
-                                                デサインIDが自動登録されます。
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div id="old-product-input" class="fadeIn">
-                                        <div class="row d-flex justify-content-center align-items-center"
-                                            style="margin-bottom:5px;">
-                                            <div class="col-lg-3">
-                                                <div class="label">
-                                                    クラスID :
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-9">
-                                                <!--Autocomplete-->
-                                                <div class="wrapper">
-                                                    <div id="search_input_for_class_id" class="search-input">
-                                                        <input required require id="existed_class_id" type="search"
-                                                            class="input-text-1" placeholder="製品を検索するために入力する"
-                                                            style="width:100%;">
-                                                        <div id="autocom_for_class_id" class="autocom-box">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row d-flex justify-content-center align-items-center"
-                                            style="margin-bottom:5px;">
-                                            <div class="col-lg-3">
-                                                <div class="label">
-                                                    デサインID :
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-9">
-                                                <div class="wrapper">
-                                                    <div id="search_input_for_design_id" class="search-input">
-                                                        <input required require id="existed_design_id" type="search"
-                                                            class="input-text-1" placeholder="製品を検索するために入力する"
-                                                            style="width:100%;" readonly>
-                                                        <div id="autocom_for_design_id" class="autocom-box">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row" style="margin-top:20px;">
-                                                <div id="class_image_layout" class="col-6 d-none fadeIn">
-                                                    <div>クラスIDの画像</div>
-                                                    <img id="class_image">
-
-                                                </div>
-                                                <div id="design_image_layout" class="col-6 d-none fadeIn">
-                                                    <div>デサインIDの画像</div>
-                                                    <img id="design_image">
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-
-                                    <div class="row row-bottom">
-                                        <div class="buttons">
-                                            <button class="next_button">次へ</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="main">
-                                    <div class="row d-flex justify-content-center align-items-center"
-                                        style="padding:0 !important;margin:0 !important; ">
-                                        <div class="col-lg-3">
-                                            <div class="file-upload">
-                                                <div class="image-upload-wrap">
-                                                    <input class="file-upload-input" type='file'
-                                                        onchange="readURL(this);" accept="image/*" />
-                                                    <div class="drag-text">
-                                                        <h3>画像を選択</h3>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <button type="button" class="btn_" id="init_camera">
-                                                <img src="{{url_for('static', filename='resource/icon/camera.png')}}"
-                                                    style="width:50px;height:50px;" alt="camera" />
-                                                写真撮る
-                                            </button>
-                                        </div>
-                                        <div
-                                            class="col-lg-5 d-flex justify-content-center align-items-center rejection_layout">
-                                            拒否 :
-                                            <input id="rejection_cb" class="switch" type="checkbox" />
-                                        </div>
-                                    </div>
-                                    <hr class="divider">
-                                    <div id="show_image" class="show-image">
-                                        <div class="file-upload-content fix-image" id="image_from_file">
-                                            <img class="file-upload-image" src="#" alt="your image" />
-                                        </div>
-                                        <div id="image_from_camera" class="fix-image">
-                                            <video id="cam" class="cam">
-                                            </video>
-                                            <canvas id="canvas" class="canvas"></canvas>
-                                            <img id="photo" class="photo">
-                                        </div>
-                                        <div id="loading" class="loading justify-content-center align-items-center">
-                                            <div
-                                                style="width:300px;height:auto;background:rgb(255,255,255);border-radius:10px">
-                                                <div id="info">
-                                                    <h5>処理中です。</h5>
-                                                    <h5>少々お待ちください！</h5>
-                                                </div>
-                                                <img style="width:100%;height:auto;border-radius:0 0 10px 10px;"
-                                                    src="{{url_for('static', filename='resource/icon/loading2.svg')}} " />
-                                            </div>
-                                        </div>
-                                        <div class="justify-content-center align-items-center"
-                                            style="width:25%;margin: 0 3px 3px;">
-                                            <div style="border:1px dashed grey;border-radius:10px;margin-bottom:25px">
-                                                <div class="label">※　読み取った画像</div>
-                                                <div style="overflow-y:auto;max-height:150px;min-height:150px"><img
-                                                        id="remove_bg_photo" class="remove-photo"></div>
-                                            </div>
-                                            <div style="border:1px dashed grey;border-radius:10px">
-                                                <div class="label">※　拒否画像</div>
-                                                <div style="overflow-y:auto;max-height:150px;min-height:150px">
-
-                                                    <img id="rejection_photo" class="remove-photo">
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-                                        <div id="control_layout" class="camera-control">
-                                            <div id="control_camera">
-                                                <div><span id="focus" class="fadeIn">0</span></div>
-
-                                                <input id="slider" type="range" class="slider fadeIn" />
-
-                                                <img src="{{url_for('static', filename='resource/icon/play.svg')}}"
-                                                    class="camera-button-control fadeIn" alt="add"
-                                                    onclick="re_play()" />
-                                                <img src="{{url_for('static', filename='resource/icon/take_photo.svg')}}"
-                                                    class="camera-button-control fadeIn" id="take-photo" />
-                                            </div>
-                                            <div id="control_file">
-                                                <img src="{{url_for('static', filename='resource/icon/take_photo.svg')}}"
-                                                    class="camera-button-control fadeIn" id="photo_process" />
-
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-
-                                    <div id="snackbar">画像を撮りました。</div>
-
-                                    <div class="row row-bottom">
-                                        <div class="buttons button_space">
-                                            <button class="back_button">戻る</button>
-                                            <button class="next_button">次へ</button>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="main">
-                                    <div class="row d-flex justify-content-center align-items-center"
-                                        style="padding:0 !important;margin:0 !important;">
-                                        <h4> 特徴画像を登録してください！</h4>
-                                        <h4>登録しない場合、次のボタンをクリックしてください。</h4>
-                                    </div>
-                                    <hr class="divider">
-                                    <div class="draw" style="padding:0 !important;margin:0 !important;">
-                                        <canvas id="canvas-draw" class="canvas-draw"></canvas>
-
-                                        <img id="photo-draw" class="photo-draw">
-                                        <!-- small modal -->
-                                        <div id="smallModal"
-                                            style="position:absolute;width:250px;height:auto;display:none">
-                                            <div class="modal-dialog modal-sm">
-                                                <div class="modal-content">
-                                                    <div class="modal-body">
-                                                        <h5>この特徴にしますか？</h5>
-                                                        <div class="buttons button_space">
-                                                            <button type="button" id="denied_button">NO
-                                                            </button>
-                                                            <button type="button" id="accepted_button">OK
-                                                            </button>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <button id="down"><</button>
-                                        <button id="up">></button>
-                                        
-                                    </div>
-                                    <div class="row row-bottom">
-                                        <div class="buttons button_space">
-                                            <button class="back_button">戻る</button>
-                                            <button class="next_button">次へ</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="main" style="text-align: -webkit-center;">
-                                    <h4> 以下のデータを登録します。ご確認してください。</h4>
-                                    <h6> データを変更したら、戻るボタンをクリックしてください。</h6>
-
-                                    <!--                                    <h4 id="prev_product_type"></h4>-->
-                                    <div class="row">
-                                        <div class="col-6">
-                                            Class ID
-                                            <div id="prev_class_id"></div>
-                                        </div>
-                                        <div class="col-6">
-                                            Design ID
-                                            <div id="prev_design_id"></div>
-                                        </div>
-                                    </div>
-                                    <hr class="divider mid-div">
-                                    <div class="row">
-                                        <div class="col-4">
-                                            画像
-                                            <div><img id="prev_image_src" class="prev-image"></div>
-                                        </div>
-                                        <div class="col-4">
-                                            特徴画像
-                                            <div> <img class="prev-image" id="prev_feature_image_src"></div>
-                                        </div>
-                                        <div class="col-4">
-                                            拒否画像
-                                            <div><img class="prev-image" id="prev_injection_image_src"></div>
-                                        </div>
-                                    </div>
-                                    <div class="row row-bottom">
-                                        <div class="buttons button_space">
-                                            <button class="back_button">戻る</button>
-                                            <button class="submit_button" id="btn_register">登録</button>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="main">
-                                    <img style="width: 40%;
-                                                height: auto;"
-                                        src="{{url_for('static', filename='resource/icon/success.gif')}}" />
-
-                                    <div class="congrats">
-                                        <h2 class="label">新製品を登録できました。</h2>
-                                        <h2 class="label">お疲れ様でした。</h2>
-                                    </div>
-                                    <form method="get" action="/add_product">
-                                        <button type="submit" class="btn" style="background:Navy;color:white;"
-                                            onclick="closeAndClear()">
-                                            Home
-                                        </button>
-                                    </form>
-
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<div
+  class="modal"
+  id="register-product-modal"
+  tabindex="-1"
+  aria-labelledby="large-modal-label"
+  aria-hidden="true"
+  data-bs-keyboard="false"
+  data-bs-backdrop="static"
+>
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <!--Close Button side Modal-->
+        <button
+          type="button"
+          class="btn-close register-modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body" style="padding: 0px !important">
+        <div class="steps-container">
+          <div class="card" style="padding: 0 !important; margin: 0 !important">
+            <div class="form">
+              <div class="left-side">
+                <div class="left-heading">
+                  <h3>商品登録</h3>
                 </div>
-
-            </div>
-
-            <!--  Confirm Modal -->
-            <div class="modal fade" id="confirm_modal" data-bs-backdrop="false" tabindex="-1" role="dialog"
-                aria-labelledby="confirm" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content confirm-md">
-                        <div class="modal-body">
-                            <h6>情報を登録していますが、 </h6>
-                            <h6>登録止めてよろしいですか？ </h6>
-                        </div>
-                        <div class="modal-footer">
-
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
-                            <form method="post" action="/add_product">
-                                <button type="submit" class="btn confirm-modal" style="background:Navy;color:white;"
-                                    onclick="closeAndClear()">
-                                    止める
-                                </button>
-                            </form>
-                        </div>
-                    </div>
+                <div class="steps-content">
+                  <h3>ステップ<span class="step-number">1</span></h3>
+                  <p class="step-number-content active">
+                    新商品・現商品を登録する。
+                  </p>
+                  <p class="step-number-content d-none">画像を登録する</p>
+                  <p class="step-number-content d-none">特長画像を取得する</p>
+                  <p class="step-number-content d-none">確認</p>
                 </div>
+                <ul class="progress-bar">
+                  <li class="active">ID登録</li>
+                  <li>画像登録</li>
+                  <li>特徴画像登録</li>
+                  <li>確認</li>
+                </ul>
+              </div>
+              <div class="right-side">
+                <div class="main active">
+                  <div
+                    class="row d-flex justify-content-center align-items-center"
+                  >
+                    <!--New or Old Product choose-->
+                    <div class="wrapper-choose-product">
+                      <input type="radio" name="select" id="option-1" />
+                      <input type="radio" name="select" id="option-2" />
+                      <label for="option-1" class="option option-1">
+                        <div class="dot"></div>
+                        <span>新製品</span>
+                      </label>
+                      <label for="option-2" class="option option-2">
+                        <div class="dot"></div>
+                        <span>現製品</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div id="new-product-input" class="fadeIn">
+                    <div
+                      class="row d-flex align-items-center"
+                      style="margin-bottom: 10px"
+                    >
+                      <div class="col-2 text-start">
+                        <div class="label">クラスID</div>
+                      </div>
+                      <div class="col-3 text-start">
+                        <input
+                          id="new_class_id"
+                          type="text"
+                          class="input-text-1"
+                          readonly
+                          value=""
+                        />
+                      </div>
+                      <div class="col-lg-4 text-start">
+                        クラスIDが自動登録されます。
+                      </div>
+                    </div>
+                    <div
+                      class="row text-start d-flex align-items-center"
+                      style="margin-bottom: 10px"
+                    >
+                      <div class="col-2 text-start">
+                        <div class="label">デサインID</div>
+                      </div>
+                      <div class="col-3 text-start">
+                        <input
+                          id="new_design_id"
+                          type="text"
+                          class="input-text-1"
+                          readonly
+                          value="0"
+                        />
+                      </div>
+                      <div class="col-4 text-start">
+                        デサインIDが自動登録されます。
+                      </div>
+                    </div>
+                    <div
+                      class="row d-flex align-items-center"
+                      style="margin-bottom: 10px"
+                    >
+                      <div class="col-2 text-start">
+                        <div class="label">種類選択</div>
+                      </div>
+                      <div class="col-10 text-start multi-select">
+                        <div
+                          class="radio-group row"
+                          style="margin-left: 0px !important"
+                        >
+                          <div class="col-auto card-block text-center radio">
+                            <p>ヤクルト</p>
+                          </div>
+                          <div class="col-auto card-block text-center radio">
+                            <p>パック</p>
+                          </div>
+                          <div class="col-auto card-block text-center radio">
+                            <p>ケース</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="old-product-input" class="fadeIn">
+                    <div
+                      class="row d-flex justify-content-center align-items-center"
+                      style="margin-bottom: 5px"
+                    >
+                      <div class="col-lg-3">
+                        <div class="label">クラスID :</div>
+                      </div>
+                      <div class="col-lg-9">
+                        <!--Autocomplete-->
+                        <div class="wrapper">
+                          <div
+                            id="search_input_for_class_id"
+                            class="search-input"
+                          >
+                            <input
+                              required
+                              require
+                              id="existed_class_id"
+                              type="search"
+                              class="input-text-1"
+                              placeholder="製品を検索するために入力する"
+                              style="width: 100%"
+                            />
+                            <div
+                              id="autocom_for_class_id"
+                              class="autocom-box"
+                            ></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="row d-flex justify-content-center align-items-center"
+                      style="margin-bottom: 5px"
+                    >
+                      <div class="col-lg-3">
+                        <div class="label">デサインID :</div>
+                      </div>
+                      <div class="col-lg-9">
+                        <div class="wrapper">
+                          <div
+                            id="search_input_for_design_id"
+                            class="search-input"
+                          >
+                            <input
+                              required
+                              require
+                              id="existed_design_id"
+                              type="search"
+                              class="input-text-1"
+                              placeholder="製品を検索するために入力する"
+                              style="width: 100%"
+                              readonly
+                            />
+                            <div
+                              id="autocom_for_design_id"
+                              class="autocom-box"
+                            ></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row" style="margin-top: 20px">
+                        <div
+                          id="class_image_layout"
+                          class="col-6 d-none fadeIn"
+                        >
+                          <div>クラスIDの画像</div>
+                          <img id="class_image" />
+                        </div>
+                        <div
+                          id="design_image_layout"
+                          class="col-6 d-none fadeIn"
+                        >
+                          <div>デサインIDの画像</div>
+                          <img id="design_image" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row row-bottom">
+                    <div class="buttons">
+                      <button class="next_button">次へ</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="main">
+                  <div
+                    class="row d-flex justify-content-center align-items-center"
+                    style="padding: 0 !important; margin: 0 !important"
+                  >
+                    <div class="col-lg-3">
+                      <div class="file-upload">
+                        <div class="image-upload-wrap">
+                          <input
+                            class="file-upload-input"
+                            type="file"
+                            onchange="readURL(this);"
+                            accept="image/*"
+                          />
+                          <div class="drag-text">
+                            <h3>画像を選択</h3>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <button type="button" class="btn_" id="init_camera">
+                        <img
+                          src="{{url_for('static', filename='resource/icon/camera.png')}}"
+                          style="width: 50px; height: 50px"
+                          alt="camera"
+                        />
+                        写真撮る
+                      </button>
+                    </div>
+                    <div
+                      class="col-lg-5 d-flex justify-content-center align-items-center rejection_layout"
+                    >
+                      拒否 :
+                      <input id="rejection_cb" class="switch" type="checkbox" />
+                    </div>
+                  </div>
+                  <hr class="divider" />
+                  <div id="show_image" class="show-image">
+                    <div
+                      class="file-upload-content fix-image"
+                      id="image_from_file"
+                    >
+                      <img class="file-upload-image" src="#" alt="your image" />
+                    </div>
+                    <div id="image_from_camera" class="fix-image">
+                      <video id="cam" class="cam"></video>
+                      <canvas id="canvas" class="canvas"></canvas>
+                      <img id="photo" class="photo" />
+                    </div>
+                    <div
+                      id="loading"
+                      class="loading justify-content-center align-items-center"
+                    >
+                      <div
+                        style="
+                          width: 300px;
+                          height: auto;
+                          background: rgb(255, 255, 255);
+                          border-radius: 10px;
+                        "
+                      >
+                        <div id="info">
+                          <h5>処理中です。</h5>
+                          <h5>少々お待ちください！</h5>
+                        </div>
+                        <img
+                          style="
+                            width: 100%;
+                            height: auto;
+                            border-radius: 0 0 10px 10px;
+                          "
+                          src="{{url_for('static', filename='resource/icon/loading2.svg')}} "
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="justify-content-center align-items-center"
+                      style="width: 25%; margin: 0 3px 3px"
+                    >
+                      <div
+                        style="
+                          border: 1px dashed grey;
+                          border-radius: 10px;
+                          margin-bottom: 25px;
+                        "
+                      >
+                        <div class="label">※　読み取った画像</div>
+                        <div
+                          style="
+                            overflow-y: auto;
+                            max-height: 150px;
+                            min-height: 150px;
+                          "
+                        >
+                          <img id="remove_bg_photo" class="remove-photo" />
+                        </div>
+                      </div>
+                      <div style="border: 1px dashed grey; border-radius: 10px">
+                        <div class="label">※　拒否画像</div>
+                        <div
+                          style="
+                            overflow-y: auto;
+                            max-height: 150px;
+                            min-height: 150px;
+                          "
+                        >
+                          <img id="rejection_photo" class="remove-photo" />
+                        </div>
+                      </div>
+                    </div>
+                    <div id="control_layout" class="camera-control">
+                      <div id="control_camera">
+                        <div><span id="focus" class="fadeIn">0</span></div>
+
+                        <input id="slider" type="range" class="slider fadeIn" />
+
+                        <img
+                          src="{{url_for('static', filename='resource/icon/play.svg')}}"
+                          class="camera-button-control fadeIn"
+                          alt="add"
+                          onclick="re_play()"
+                        />
+                        <img
+                          src="{{url_for('static', filename='resource/icon/take_photo.svg')}}"
+                          class="camera-button-control fadeIn"
+                          id="take-photo"
+                        />
+                      </div>
+                      <div id="control_file">
+                        <img
+                          src="{{url_for('static', filename='resource/icon/take_photo.svg')}}"
+                          class="camera-button-control fadeIn"
+                          id="photo_process"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div id="snackbar">画像を撮りました。</div>
+
+                  <div class="row row-bottom">
+                    <div class="buttons button_space">
+                      <button class="back_button">戻る</button>
+                      <button class="next_button">次へ</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="main">
+                  <div
+                    class="row d-flex justify-content-center align-items-center"
+                    style="padding: 0 !important; margin: 0 !important"
+                  >
+                    <h4>特徴画像を登録してください！</h4>
+                    <h4>登録しない場合、次のボタンをクリックしてください。</h4>
+                  </div>
+                  <hr class="divider" />
+                  <div
+                    class="draw"
+                    style="padding: 0 !important; margin: 0 !important"
+                  >
+                    <canvas id="canvas-draw" class="canvas-draw"></canvas>
+
+                    <img id="photo-draw" class="photo-draw" />
+                    <!-- small modal -->
+                    <div
+                      id="smallModal"
+                      style="
+                        position: absolute;
+                        width: 250px;
+                        height: auto;
+                        display: none;
+                      "
+                    >
+                      <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                          <div class="modal-body">
+                            <h5>この特徴にしますか？</h5>
+                            <div class="buttons button_space">
+                              <button type="button" id="denied_button">
+                                NO
+                              </button>
+                              <button type="button" id="accepted_button">
+                                OK
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <button id="down"><</button>
+                    <button id="up">></button>
+                  </div>
+                  <div class="row row-bottom">
+                    <div class="buttons button_space">
+                      <button class="back_button">戻る</button>
+                      <button class="next_button">次へ</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="main" style="text-align: -webkit-center">
+                  <h4>以下のデータを登録します。ご確認してください。</h4>
+                  <h6>
+                    データを変更したら、戻るボタンをクリックしてください。
+                  </h6>
+                  <div class="row">
+                    <div class="col-6">
+                      Class ID
+                      <div id="prev_class_id"></div>
+                    </div>
+                    <div class="col-6">
+                      Design ID
+                      <div id="prev_design_id"></div>
+                    </div>
+                  </div>
+                  <hr class="divider mid-div" />
+                  <div class="row">
+                    <div class="col-4">
+                      画像
+                      <div><img id="prev_image_src" class="prev-image" /></div>
+                    </div>
+                    <div class="col-4">
+                      特徴画像
+                      <div>
+                        <img class="prev-image" id="prev_feature_image_src" />
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      拒否画像
+                      <div>
+                        <img class="prev-image" id="prev_injection_image_src" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row row-bottom">
+                    <div class="buttons button_space">
+                      <button class="back_button">戻る</button>
+                      <button class="submit_button" id="btn_register">
+                        登録
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="main">
+                  <img
+                    style="width: 40%; height: auto"
+                    src="{{url_for('static', filename='resource/icon/success.gif')}}"
+                  />
+
+                  <div class="congrats">
+                    <h2 class="label">新製品を登録できました。</h2>
+                    <h2 class="label">お疲れ様でした。</h2>
+                  </div>
+
+                  <a
+                    href="{{ url_for('add_product') }}"
+                    class="btn"
+                    style="background: Navy; color: white"
+                  >
+                    Home
+                  </a>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
+
+      <!--  Confirm Modal -->
+      <div
+        class="modal"
+        id="confirm_modal"
+        data-bs-backdrop="false"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="confirm"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content confirm-md">
+            <div class="modal-body">
+              <h6>情報を登録していますが、</h6>
+              <h6>登録止めてよろしいですか？</h6>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                閉じる
+              </button>
+
+              <a
+                class="btn confirm-modal"
+                style="background: Navy; color: white"
+                href="{{ url_for('add_product') }}"
+              >
+                止める
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>

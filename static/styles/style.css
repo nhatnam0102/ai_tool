@@ -3,6 +3,7 @@ body {
     /* background-color: #e9ecef !important;
     */
     background-size: cover;
+    font-family: '游ゴシック' !important;
 }
 
 .next_button {
@@ -433,7 +434,7 @@ input[type="radio"] {
 }
 
 .input-text-1 {
-    width: 50%;
+    width: 100%;
     height: 40px;
     border: none;
     outline: 0;
@@ -441,10 +442,6 @@ input[type="radio"] {
     border: 1px solid #cbced4;
     box-sizing: border-box;
     padding: 0px 10px;
-}
-
-:focus {
-    outline: none;
 }
 
 .input-text-1:focus {
@@ -698,7 +695,6 @@ input[type="radio"] {
     background-color: #fff;
     position: relative;
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-    font-family: 'Poppins', sans-serif;
     border-radius: 7px;
 }
 
@@ -1351,15 +1347,15 @@ select {
     margin: 0;
     padding: 0;
     width: 0;
-    height: 30px;
+    height: 40px;
     overflow: hidden;
     white-space: nowrap;
     transition: 0.5s;
 }
 
 .nav1 input:checked~.menu {
-    width: 350px;
-    height: 30px;
+    width: 385px;
+    height: 40px;
 }
 
 .menu li {
@@ -1374,6 +1370,7 @@ select {
     text-transform: uppercase;
     font-weight: 600;
     transition: 0.5s;
+    font-size: 20px;
     cursor: pointer;
 }
 
@@ -1382,8 +1379,8 @@ select {
 }
 
 .nav1 input {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     cursor: pointer;
     opacity: 0;
 }
@@ -1391,7 +1388,7 @@ select {
 .nav1 span {
     position: absolute;
     left: 10px;
-    width: 20px;
+    width: 30px;
     height: 4px;
     border-radius: 50px;
     background-color: #666;
@@ -1433,4 +1430,37 @@ select {
     color: rgba(255, 255, 255, 0.7);
     justify-content: center;
     align-items: center;
+}
+
+
+.multi-select .card-block {
+    width: 200px;
+    height: 200px;
+    border-radius: 5px !important;
+    background-color: white;
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.1);
+    margin-right: 10px;
+}
+
+.multi-select .radio {
+    display: inline-block;
+    border-radius: 0;
+    box-sizing: border-box;
+    cursor: pointer;
+    color: #000;
+    font-weight: 500;
+}
+
+
+.multi-select .radio:hover {
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.multi-select .radio.selected {
+    box-shadow: 0px 8px 16px 0px #EEEEEE;
+}
+
+.multi-select .selected {
+    border: 2px solid navy;
+
 }

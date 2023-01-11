@@ -37,8 +37,7 @@ const none_image =
 //Init submit dictionary --> send to server
 let submit_dict = {
   camera: null,
-  camera_id: null,
-  product_type: "new",
+  product_type: null,
   class_id: null,
   class_id_src: null,
   design_id: null,
@@ -59,8 +58,6 @@ input_element.addEventListener("keyup", () => {
 
 let top_data = null;
 let side_data = null;
-
-
 
 function readTextFile() {
   //Get top data
@@ -465,7 +462,7 @@ option_1_rad.onclick = function () {
   option_2_rad.checked = false;
 
   //Add product type to submit dictionary
-  submit_dict.product_type = "new";
+  // submit_dict.product_type = "new";
 };
 
 option_2_rad.onclick = function () {
@@ -478,7 +475,7 @@ option_2_rad.onclick = function () {
   option_2_rad.checked = true;
 
   //Add product type to submit dictionary
-  submit_dict.product_type = "old";
+  // submit_dict.product_type = "old";
 };
 
 //Load json
@@ -696,6 +693,10 @@ var step_list = document.querySelectorAll(".progress-bar li");
 var num = document.querySelector(".step-number");
 let form_num = 0;
 
+//back button event
+var back_click = document.querySelectorAll(".back_button");
+var submit_click = document.querySelectorAll(".submit_button");
+
 next_click.forEach(function (next_click_form) {
   next_click_form.addEventListener("click", function () {
     if (!validate_form()) {
@@ -715,8 +716,6 @@ next_click.forEach(function (next_click_form) {
   });
 });
 
-//back button event
-var back_click = document.querySelectorAll(".back_button");
 back_click.forEach(function (back_click_form) {
   back_click_form.addEventListener("click", function () {
     form_num--;
@@ -725,8 +724,6 @@ back_click.forEach(function (back_click_form) {
     content_change();
   });
 });
-
-var submit_click = document.querySelectorAll(".submit_button");
 submit_click.forEach(function (submit_click_form) {
   submit_click_form.addEventListener("click", function () {
     form_num++;
@@ -870,28 +867,24 @@ function update_form() {
           ) {
             is_down = false;
             dragTL = true;
-            console.log("do TL");
           } else if (
             check_click_circle(startPosition.x, shape["X"] + shape["WIDTH"]) &&
             check_click_circle(startPosition.y, shape["Y"])
           ) {
             is_down = false;
             dragTR = true;
-            console.log("do TR");
           } else if (
             check_click_circle(startPosition.x, shape["X"]) &&
             check_click_circle(startPosition.y, shape["Y"] + shape["HEIGHT"])
           ) {
             is_down = false;
             dragBL = true;
-            console.log("do BL");
           } else if (
             check_click_circle(startPosition.x, shape["X"] + shape["WIDTH"]) &&
             check_click_circle(startPosition.y, shape["Y"] + shape["HEIGHT"])
           ) {
             is_down = false;
             dragBR = true;
-            console.log("do BR");
           }
         }
       };
@@ -958,7 +951,7 @@ function update_form() {
           drawRectangle(shape, (color = { R: 80, G: 200, B: 120, A: 0.3 }));
         }
       };
-      $("#up").on("click", function (e) {
+      $("#up").on("click", function () {
         shape["X"] -= 10;
         shape["Y"] -= 10;
         shape["WIDTH"] += 20;
@@ -966,7 +959,7 @@ function update_form() {
         clearCanvas();
         drawRectangle(shape, (color = { R: 80, G: 200, B: 120, A: 0.3 }));
       });
-      $("#down").on("click", function (e) {
+      $("#down").on("click", function () {
         shape["X"] += 10;
         shape["Y"] += 10;
         shape["WIDTH"] -= 20;
@@ -992,16 +985,16 @@ function update_form() {
 
         event.preventDefault();
       };
-      const mouseLeaveListener = (event) => {
+      const mouseLeaveListener = () => {
         is_down = false;
         dragTL = dragTR = dragBL = dragBR = false;
       };
 
-      const denied = (event) => {
+      const denied = () => {
         modal.style.display = "none";
         modal.style.zIndex = "";
       };
-      const accepted = (event) => {
+      const accepted = () => {
         modal.style.display = "none";
         modal.style.zIndex = "";
         clearCanvas();
@@ -1197,10 +1190,12 @@ function setting_camera(device_id, video_src) {
     });
 }
 
+//on Setting Camera clicked
 $("#btn_setting_camera").on("click", async () => {
   const cam1 = document.getElementById("cam1");
   const cam2 = document.getElementById("cam2");
 
+  //Get list camera devices
   let devices = await navigator.mediaDevices.enumerateDevices();
   let cams = [];
   if (cameras.TOP_ID.length == 0 || cameras.SIDE_ID.length == 0) {
@@ -1218,6 +1213,8 @@ $("#btn_setting_camera").on("click", async () => {
 
   setting_camera(cameras.SIDE_ID, (video_src = cam2));
 });
+
+// on change button camera clicked
 $("#change_camera").on("click", () => {
   [cameras.TOP_ID, cameras.SIDE_ID] = [cameras.SIDE_ID, cameras.TOP_ID];
   $.ajax({
@@ -1236,4 +1233,12 @@ $("#change_camera").on("click", () => {
   });
   setting_camera(cameras.TOP_ID, (video_src = cam1));
   setting_camera(cameras.SIDE_ID, (video_src = cam2));
+});
+
+$(document).ready(function () {
+  $(".multi-select .radio-group .radio").click(function () {
+    $(".multi-select .radio").removeClass("selected");
+    $(this).addClass("selected");
+    submit_dict.product_type = $(this).text();
+  });
 });

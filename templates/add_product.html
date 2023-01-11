@@ -20,8 +20,8 @@ Add Product
                   <span></span>
                   <span></span>
                   <div class="menu">
-                    <li><a href="#"><i class="fa-solid fa-house fa-1x"></i> ホーム</a></li>
-                    <li><a id='btn_setting_camera' data-bs-toggle="modal"
+                    <li><a href="{{ url_for('page_not_found') }}"><i class="fa-solid fa-house fa-1x"></i> ホーム</a></li>
+                    <li><a href="" id='btn_setting_camera' data-bs-toggle="modal"
                         data-bs-target="#camera_setting_modal"><i class="fa-solid fa-gear fa-1x"></i> カメラ設定</a></li>
                   </div>
               </div>
@@ -30,13 +30,13 @@ Add Product
         <div class="row">
         <div class="col-lg-4">
             <!--Menu Collapse-->
-            <div class="container mt-3">
+            <div class="container mt-3" style="padding: 0;">
                 <div id="accordion">
 
                     <!--Model Choose-->
                     <div class=" card-container">
                         <div class="card-header">
-                            <a class="btn-custom" data-bs-toggle="collapse" href="#collapseOne">
+                            <a class="btn btn-custom" data-bs-toggle="collapse" href="#collapseOne">
                                 <h1 class="label"><i class="fa-solid fa-circle-plus fa-1x"></i> 新製品登録</h1>
                             </a>
                         </div>
@@ -134,12 +134,7 @@ Add Product
 
             </div>
             <h3 style="margin-top:50px">・データセット</h3>
-            <!--   <div class="hiddenCB">
-                   <div><input type="checkbox" name="choice" id="cb1"/><label for="cb1">フィルム</label></div>
-                   <div><input type="checkbox" name="choice" id="cb2"/><label for="cb2">サイズ</label></div>
-                   <div><input type="checkbox" name="choice" id="cb3"/><label for="cb3">回転</label></div>
-                   <div><input type="checkbox" name="choice" id="cb4"/><label for="cb4">斜め</label></div>
-               </div>-->
+          
             <div style="display:flex;">
                 <div class="mutil-checkbox">
                     <input type="checkbox" id="checkbox1" hidden/>
